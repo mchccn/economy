@@ -14,6 +14,7 @@ type Command = {
   category: Category;
   args: boolean;
   usage: string;
+  cooldown: number;
   execute(
     message: Discord.Message,
     args: string[],

@@ -9,6 +9,7 @@ export default {
   usage: "[page]",
   category: Category.ECONOMY,
   description: "Visit the shop for items to buy",
+  cooldown: 1,
   async execute(message, args, client, currency, users, shop) {
     const items = await shop.findAll();
     return message.channel.send(

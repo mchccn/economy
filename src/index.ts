@@ -6,6 +6,10 @@ import { token, prefix } from "./config.json";
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection<string, Command>();
+const cooldowns = new Discord.Collection<
+  string,
+  Discord.Collection<string, number>
+>();
 const { Users, CurrencyShop } = require("./dbObjects");
 import { Op } from "sequelize";
 const currency = new Discord.Collection<any, any>();
@@ -48,7 +52,7 @@ Reflect.defineProperty(currency, "getBank", {
 });
 
 Reflect.defineProperty(currency, "getMaxBank", {
-  value: function getBank(id: any) {
+  value: function getMaxBank(id: any) {
     const user: any = currency.get(id);
     return user ? user.max_bank : 0;
   },
@@ -84,6 +88,30 @@ client.on("message", async (message) => {
     return message.channel.send(
       `The usage of \`${command.name}\` is \`${command.usage}\`. Use \`${prefix}help ${command.name}\` for more info.`
     );
+  }
+
+  if (!cooldowns.has(command.name)) {
+    cooldowns.set(command.name, new Discord.Collection());
+  }
+
+  const now = Date.now();
+  const timestamps = cooldowns.get(command.name);
+  const cooldownAmount = command.cooldown * 1000;
+
+  if (timestamps!.has(message.author.id)) {
+    const expirationTime = timestamps!.get(message.author.id)! + cooldownAmount;
+
+    if (now < expirationTime) {
+      const timeLeft = (expirationTime - now) / 1000;
+      return message.reply(
+        `please wait ${timeLeft.toFixed(
+          1
+        )} more second(s) before reusing the \`${command.name}\` command.`
+      );
+    }
+  } else {
+    timestamps!.set(message.author.id, now);
+    setTimeout(() => timestamps!.delete(message.author.id), cooldownAmount);
   }
 
   try {

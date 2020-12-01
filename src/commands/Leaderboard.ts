@@ -9,6 +9,7 @@ export default {
   usage: "[user]",
   category: Category.ECONOMY,
   description: "See who's the best",
+  cooldown: 1,
   async execute(message, args, client, currency, users) {
     if (args.length) {
       if (["me", "i", "pos", "position", "us"].includes(args[0])) {

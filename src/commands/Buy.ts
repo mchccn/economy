@@ -10,7 +10,8 @@ export default {
   usage: "<user> [amount]",
   category: Category.ECONOMY,
   description: "Buy an item, or items.",
-  async execute(message, args, client, currency, users, shop) {
+  cooldown: 1,
+  async execute(message, args, client, currency, Users, shop) {
     const item = await shop.findOne({
       where: { name: { [Op.like]: args[0] } },
     });
@@ -34,7 +35,7 @@ export default {
       );
     }
 
-    const user = await users.findOne({ where: { user_id: message.author.id } });
+    const user = await Users.findOne({ where: { user_id: message.author.id } });
     //@ts-ignore
     currency.add(message.author.id, -totalCost);
     await user.addItem(item);

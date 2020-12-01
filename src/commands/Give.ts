@@ -9,6 +9,7 @@ export default {
   usage: "<user> <amount>",
   category: Category.ECONOMY,
   description: "Give money to someone",
+  cooldown: 1,
   async execute(message, args, client, currency, users) {
     //@ts-ignore
     const currentAmount = currency.getBalance(message.author.id);

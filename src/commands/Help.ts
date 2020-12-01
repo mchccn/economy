@@ -10,6 +10,7 @@ export default {
   description:
     "Displays all commands and info on a specific command if specified.",
   category: Category.UTIL,
+  cooldown: 1,
   async execute(message, args, client) {
     const { commands } = client;
 
@@ -64,7 +65,10 @@ export default {
         .setDescription(
           `Arguments wrapped in \`<>\` are required and arguments wrapped in \`[]\` are optional.\nArguments separated by \`|\` indicates separate prompts.`
         )
-        .addField("Aliases", command.aliases.map((a) => `\`${a}\``).join("\n"))
+        .addField(
+          "Aliases",
+          command.aliases.map((a) => `\`${a}\``).join("\n") || "None"
+        )
         .addField("Description", command.description)
         .addField("Usage", `\`${prefix}${command.name} ${command.usage}\``)
         .addField(

@@ -9,8 +9,13 @@ export default {
   usage: "[user]",
   category: Category.ECONOMY,
   description: "View your balance, or someone else's",
+  cooldown: 1,
   async execute(message, args, client, currency, users) {
     const target = parseUsers(args, message)[0] || message.author;
+
+    //@ts-ignore
+    console.log(currency.getMaxBank.toString());
+
     return message.channel.send(
       new Discord.MessageEmbed()
         .setTitle(`${target?.username}'s balance`)
