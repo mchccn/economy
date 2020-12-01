@@ -18,9 +18,24 @@ try {
   (async function () {
     await sequelize.sync({ force });
     const shop = [
-      CurrencyShop.upsert({ emoji: "🍵", name: "Tea", cost: 5 }),
-      CurrencyShop.upsert({ emoji: "☕", name: "Coffee", cost: 10 }),
-      CurrencyShop.upsert({ emoji: "🍰", name: "Cake", cost: 20 }),
+      CurrencyShop.upsert({
+        emoji: "🍵",
+        name: "Tea",
+        cost: 5,
+        description: "Drink some tea",
+      }),
+      CurrencyShop.upsert({
+        emoji: "☕",
+        name: "Coffee",
+        cost: 10,
+        description: "Drink some coffee",
+      }),
+      CurrencyShop.upsert({
+        emoji: "🍰",
+        name: "Cake",
+        cost: 20,
+        description: "Eat some cake",
+      }),
     ];
     await Promise.all(shop);
     console.log("Database synced");

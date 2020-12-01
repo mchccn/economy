@@ -14,6 +14,6 @@ export default {
     const amount = 100;
     //@ts-ignore
     currency.add(message.author.id, amount);
-    message.channel.send(`You got ${amount}!`);
+    message.channel.send(`You got ${amount} coins!`);
   },
 } as Command;

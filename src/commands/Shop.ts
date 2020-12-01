@@ -12,9 +12,24 @@ export default {
   cooldown: 1,
   async execute(message, args, client, currency, users, shop) {
     const items = await shop.findAll();
-    return message.channel.send(
-      items.map((item: any) => `${item.name}: ${item.cost}💰`).join("\n"),
-      { code: true }
-    );
+
+    const embed = new Discord.MessageEmbed()
+      .setColor("RANDOM")
+      .setFooter(client.user?.tag)
+      .setTimestamp(message.createdTimestamp)
+      .setTitle("Shop");
+
+    let shopDesc = "";
+
+    for (const item of items) {
+      embed.addField(
+        `${item.emoji} ${item.name} - ${item.cost}`,
+        item.description
+      );
+    }
+
+    embed.setDescription(shopDesc);
+
+    return message.channel.send(embed);
   },
 } as Command;
