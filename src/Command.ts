@@ -4,6 +4,7 @@ type Command = {
   name: string;
   aliases: string[];
   description: string;
+  category: "util" | "economy";
   args: boolean;
   usage: string;
   execute(
