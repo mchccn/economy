@@ -18,7 +18,7 @@ module.exports = (sequelize: Sequelize, dataTypes: typeof DataTypes) => {
         defaultValue: 0,
         allowNull: false,
       },
-      bank_max: {
+      max_bank: {
         type: dataTypes.INTEGER,
         defaultValue: 250,
         allowNull: false,
