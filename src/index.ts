@@ -6,6 +6,9 @@ import { token, prefix } from "./config.json";
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection<string, Command>();
+const { Users, CurrencyShop } = require("./dbObjects");
+import { Op } from "sequelize";
+const currency = new Discord.Collection<any, any>();
 
 const commandFiles = fs
   .readdirSync(path.join(__dirname, "/commands"))
@@ -17,8 +20,44 @@ for (const file of commandFiles) {
   client.commands.set(command.name, command);
 }
 
-client.once("ready", () => {
+Reflect.defineProperty(currency, "add", {
+  value: async function add(id: any, amount: any) {
+    const user: any = currency.get(id);
+    if (user) {
+      user.balance += Number(amount);
+      return user.save();
+    }
+    const newUser = await Users.create({ user_id: id, balance: amount });
+    currency.set(id, newUser);
+    return newUser;
+  },
+});
+
+Reflect.defineProperty(currency, "getBalance", {
+  value: function getBalance(id: any) {
+    const user: any = currency.get(id);
+    return user ? user.balance : 0;
+  },
+});
+
+Reflect.defineProperty(currency, "getBank", {
+  value: function getBank(id: any) {
+    const user: any = currency.get(id);
+    return user ? user.bank : 0;
+  },
+});
+
+Reflect.defineProperty(currency, "getMaxBank", {
+  value: function getBank(id: any) {
+    const user: any = currency.get(id);
+    return user ? user.max_bank : 0;
+  },
+});
+
+client.once("ready", async () => {
   console.log("Ready!");
+  const storedBalances = await Users.findAll();
+  storedBalances.forEach((b: any) => currency.set(b.user_id, b));
   client.user?.setActivity({ type: "WATCHING", name: ` for ${prefix}help` });
 });
 
@@ -48,7 +87,7 @@ client.on("message", async (message) => {
   }
 
   try {
-    command.execute(message, args, client);
+    command.execute(message, args, client, currency, Users, CurrencyShop);
   } catch (err) {
     console.error(err);
     message.channel.send("Something went wrong!");

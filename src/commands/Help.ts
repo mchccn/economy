@@ -1,4 +1,4 @@
-import Command from "../Command";
+import Command, { Category } from "../Command";
 import { prefix } from "../config.json";
 import Discord from "discord.js";
 
@@ -9,7 +9,7 @@ export default {
   usage: "[command]",
   description:
     "Displays all commands and info on a specific command if specified.",
-  category: "util",
+  category: Category.UTIL,
   async execute(message, args, client) {
     const { commands } = client;
 
@@ -24,24 +24,26 @@ export default {
             )
             .setFooter(client.user?.tag)
             .setTimestamp(message.createdAt)
-            .addField(
-              "Utility",
-              commands
-                .filter((cmd) => cmd.category === "util")
-                .map((cmd) => `\`${cmd.name}\``)
-                .join("\n") || "None"
-            )
-            .addField(
-              "Economy",
-              commands
-                .filter((cmd) => cmd.category === "economy")
-                .map((cmd) => `\`${cmd.name}\``)
-                .join("\n") || "None"
+            .addFields(
+              Object.keys(Category)
+                .filter((key) => !/[0-9]+/.test(key))
+                .map((cat) => {
+                  return {
+                    name: cat.toLowerCase(),
+                    value:
+                      commands
+                        .filter((cmd) => cmd.category === Object(Category)[cat])
+                        .map((cmd) => `\`${cmd.name}\``)
+                        .join("\n") || "None",
+                  };
+                })
             )
         );
 
         return help.react("✅");
       } catch (e) {
+        console.log(e);
+
         return message.channel.send(
           "Couldn't send the message. Do you have DMs disabled?"
         );
@@ -65,7 +67,13 @@ export default {
         .addField("Aliases", command.aliases.map((a) => `\`${a}\``).join("\n"))
         .addField("Description", command.description)
         .addField("Usage", `\`${prefix}${command.name} ${command.usage}\``)
-        .addField("Category", command.category)
+        .addField(
+          "Category",
+          Object.keys(Category)
+            .filter((key) => !/[0-9]+/.test(key))
+            .filter((cat) => cat.toLowerCase() === command.category)[0]
+            .toLowerCase()
+        )
         .setColor("RANDOM")
         .setFooter(client.user?.tag)
         .setTimestamp(message.createdAt)

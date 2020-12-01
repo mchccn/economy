@@ -1,16 +1,26 @@
-import Discord from "discord.js";
+import Discord, { Collection } from "discord.js";
+import { Sequelize } from "sequelize";
+
+export enum Category {
+  UTIL = "util",
+  ECONOMY = "economy",
+  FUN = "fun",
+}
 
 type Command = {
   name: string;
   aliases: string[];
   description: string;
-  category: "util" | "economy";
+  category: Category;
   args: boolean;
   usage: string;
   execute(
     message: Discord.Message,
     args: string[],
-    client: Discord.Client
+    client: Discord.Client,
+    currency: Collection<any, any>,
+    users: any,
+    shop: any
   ): any;
 };
 
