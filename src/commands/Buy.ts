@@ -10,7 +10,7 @@ export default {
   usage: "<user> [amount]",
   category: Category.ECONOMY,
   description: "Buy an item, or items.",
-  cooldown: 1,
+  cooldown: 5,
   async execute(message, args, client, currency, Users, shop) {
     const item = await shop.findOne({
       where: { name: { [Op.like]: args[0] } },
@@ -31,15 +31,25 @@ export default {
         //@ts-ignore
         `You currently have ${currency.getBalance(
           message.author.id
-        )}, but the you need ${totalCost} coins to buy ${amount}!`
+        )} coins, but the you need ${totalCost} coins to buy ${amount}!`
       );
     }
 
     const user = await Users.findOne({ where: { user_id: message.author.id } });
     //@ts-ignore
     currency.add(message.author.id, -totalCost);
-    await user.addItem(item);
 
-    message.channel.send(`You've bought: ${item.name} ${amount} times.`);
+    for (let i = 0; i < amount; i++) await user.addItem(item);
+
+    message.channel.send(
+      new Discord.MessageEmbed()
+        .setTitle("Thank you for shopping!")
+        .setDescription(`code: ${Math.random().toString().slice(2)}`)
+        .addField("Item bought", item.name)
+        .addField("Amount bought", amount)
+        .setColor("RANDOM")
+        .setFooter(client.user?.tag)
+        .setTimestamp(message.createdAt)
+    );
   },
 } as Command;

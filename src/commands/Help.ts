@@ -10,7 +10,7 @@ export default {
   description:
     "Displays all commands and info on a specific command if specified.",
   category: Category.UTIL,
-  cooldown: 1,
+  cooldown: 0,
   async execute(message, args, client) {
     const { commands } = client;
 
@@ -41,7 +41,7 @@ export default {
             )
         );
 
-        return help.react("✅");
+        return message.react("✅");
       } catch (e) {
         console.log(e);
 

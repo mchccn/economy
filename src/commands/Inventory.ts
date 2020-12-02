@@ -9,7 +9,7 @@ export default {
   usage: "[user]",
   category: Category.ECONOMY,
   description: "View your inventory, or someone else's",
-  cooldown: 1,
+  cooldown: 2,
   async execute(message, args, client, currency, Users) {
     const target = parseUsers(args, message)[0] || message.author;
     if (!target) return message.channel.send("User not found!");

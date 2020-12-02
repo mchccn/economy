@@ -9,43 +9,55 @@ export default {
   usage: "[user]",
   category: Category.ECONOMY,
   description: "See who's the best",
-  cooldown: 1,
+  cooldown: 60,
   async execute(message, args, client, currency, users) {
     if (args.length) {
       if (["me", "i", "pos", "position", "us"].includes(args[0])) {
         return message.channel.send(
-          currency
-            .sort((a, b) => b.balance - a.balance)
-            .filter((user) => client.users.cache.has(user.user_id))
-            .map((u) => u.user_id)
-            .indexOf(message.author.id) + 1
+          `Your position: \`${
+            currency
+              .sort((a, b) => b.balance - a.balance)
+              .filter((user) => client.users.cache.has(user.user_id))
+              .map((u) => u.user_id)
+              .indexOf(message.author.id) + 1
+          }\``
         );
       }
 
       const user = parseUsers(args, message)[0];
 
+      if (!user) return message.channel.send("Could not find the user!");
+
       return message.channel.send(
-        currency
-          .sort((a, b) => b.balance - a.balance)
-          .filter((user) => client.users.cache.has(user.user_id))
-          .map((u) => u.user_id)
-          .indexOf(user?.id) + 1
+        `${user?.username}'s position: \`${
+          currency
+            .sort((a, b) => b.balance - a.balance)
+            .filter((user) => client.users.cache.has(user.user_id))
+            .map((u) => u.user_id)
+            .indexOf(user?.id) + 1
+        }\``
       );
     }
 
     return message.channel.send(
-      currency
-        .sort((a, b) => b.balance - a.balance)
-        .filter((user) => client.users.cache.has(user.user_id))
-        .first(10)
-        .map(
-          (user, position) =>
-            `(${position + 1}) ${client.users.cache.get(user.user_id)!.tag}: ${
-              user.balance
-            }💰`
+      new Discord.MessageEmbed()
+        .setTitle("Top Players")
+        .setColor("RANDOM")
+        .setFooter(client.user?.tag)
+        .setTimestamp(message.createdAt)
+        .setDescription(
+          currency
+            .sort((a, b) => b.balance - a.balance)
+            .filter((user) => client.users.cache.has(user.user_id))
+            .first(10)
+            .map(
+              (user, position) =>
+                `${["🥇", "🥈", "🥉"][position] || "🏅"} ${position + 1} ${
+                  client.users.cache.get(user.user_id)!.username
+                } - ${user.balance}`
+            )
+            .join("\n")
         )
-        .join("\n"),
-      { code: true }
     );
   },
 } as Command;

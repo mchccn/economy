@@ -7,7 +7,7 @@ export default {
   usage: "<statement>",
   category: Category.FUN,
   description: "Let the bot speak for you!",
-  cooldown: 1,
+  cooldown: 2,
   async execute(message, args, client) {
     message.channel.send(args.join(" "));
     message.delete();

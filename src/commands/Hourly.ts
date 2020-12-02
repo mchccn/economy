@@ -9,7 +9,7 @@ export default {
   usage: "",
   category: Category.ECONOMY,
   description: "Get your hour's worth",
-  cooldown: 60,
+  cooldown: 3600,
   async execute(message, args, client, currency, users) {
     const amount = 100;
     //@ts-ignore

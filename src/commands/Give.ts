@@ -9,7 +9,7 @@ export default {
   usage: "<user> <amount>",
   category: Category.ECONOMY,
   description: "Give money to someone",
-  cooldown: 1,
+  cooldown: 10,
   async execute(message, args, client, currency, users) {
     //@ts-ignore
     const currentAmount = currency.getBalance(message.author.id);
@@ -36,10 +36,10 @@ export default {
     currency.add(transferTarget.id, transferAmount);
 
     return message.channel.send(
-      `Successfully transferred ${transferAmount}💰 to ${
-        transferTarget.tag
+      `Successfully transferred ${transferAmount} to ${
+        transferTarget.username
         //@ts-ignore
-      }. Your current balance is ${currency.getBalance(message.author.id)}💰`
+      }! Your current balance is ${currency.getBalance(message.author.id)}.`
     );
   },
 } as Command;

@@ -9,7 +9,7 @@ export default {
   usage: "[page]",
   category: Category.ECONOMY,
   description: "Visit the shop for items to buy",
-  cooldown: 1,
+  cooldown: 2,
   async execute(message, args, client, currency, users, shop) {
     const items = await shop.findAll();
 
