@@ -6,9 +6,9 @@ export default {
   name: "give",
   aliases: ["transfer"],
   args: true,
-  usage: "<user> <amount>",
+  usage: "<user> <amount> [item]",
   category: Category.ECONOMY,
-  description: "Give money to someone",
+  description: "Give stuff to someone",
   cooldown: 10,
   async execute(message, args, client, currency, users) {
     //@ts-ignore
@@ -30,16 +30,20 @@ export default {
       );
     if (!transferTarget) return message.channel.send("User not found!");
 
-    //@ts-ignore
-    currency.add(message.author.id, -transferAmount);
-    //@ts-ignore
-    currency.add(transferTarget.id, transferAmount);
+    if (!args[2]) {
+      //@ts-ignore
+      currency.add(message.author.id, -transferAmount);
+      //@ts-ignore
+      currency.add(transferTarget.id, transferAmount);
 
-    return message.channel.send(
-      `Successfully transferred ${transferAmount} to ${
-        transferTarget.username
-        //@ts-ignore
-      }! Your current balance is ${currency.getBalance(message.author.id)}.`
-    );
+      return message.channel.send(
+        `Successfully transferred ${transferAmount} to ${
+          transferTarget.username
+          //@ts-ignore
+        }! Your current balance is ${currency.getBalance(message.author.id)}.`
+      );
+    } else {
+      //TODO: GIVE THE ITEM TO THE TARGET
+    }
   },
 } as Command;

@@ -13,22 +13,28 @@ export default {
   async execute(message, args, client, currency, users) {
     const target = parseUsers(args, message)[0] || message.author;
 
+    const user = await users.findOne({
+      where: {
+        user_id: target.id,
+      },
+    });
+
     return message.channel.send(
       new Discord.MessageEmbed()
         .setTitle(`${target?.username}'s balance`)
         .setColor("RANDOM")
         .setThumbnail(target.displayAvatarURL())
         //@ts-ignore
-        .addField("Balance", currency.getBalance(target.id))
+        .addField("Balance", user.balance)
         .addField(
           "Bank",
           //@ts-ignore
-          `${currency.getBank(target.id)} / ${currency.getMaxBank(target.id)}`
+          `${user.bank} / ${user.max_bank}`
         )
         .addField(
           "Total",
           //@ts-ignore
-          currency.getBank(target.id) + currency.getBalance(target.id)
+          user.bank + user.balance
         )
         .setFooter(client.user?.tag)
         .setTimestamp(message.createdAt)

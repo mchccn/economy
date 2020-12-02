@@ -38,18 +38,14 @@ export default {
 
     const refund = Math.floor(userItem.item.dataValues.cost / 2) * amount;
 
-    userItem.decrement("amount", {
-      by: amount,
-    });
-
     user.increment("balance", {
       by: refund,
     });
-
-    user.isNewRecord = false;
-    userItem.isNewRecord = false;
-
     user.save();
+
+    userItem.decrement("amount", {
+      by: amount,
+    });
     userItem.save();
 
     return message.channel.send(
