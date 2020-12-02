@@ -1,7 +1,6 @@
 import Discord from "discord.js";
 import { Op } from "sequelize";
 import Command, { Category } from "../Command";
-import parseUsers from "../utils/parseUsers";
 
 export default {
   name: "buy",
@@ -16,12 +15,18 @@ export default {
       where: { name: { [Op.like]: args[0] } },
     });
 
+    const user = await Users.findOne({ where: { user_id: message.author.id } });
+
     if (!item) return message.channel.send(`That item doesn't exist.`);
 
-    const amount = parseInt(args[1]) || 1;
+    let amount = parseInt(args[1]) || 1;
 
     if (amount <= 0)
       return message.channel.send("Invalid amount of items to purchase!");
+
+    if (["all", "max"].includes(args[1]))
+      if (user.balance % item.cost === 0) amount = user.balance / item.cost;
+      else amount = Math.floor(user.balance / item.cost);
 
     const totalCost = item.cost * amount;
 
@@ -35,7 +40,6 @@ export default {
       );
     }
 
-    const user = await Users.findOne({ where: { user_id: message.author.id } });
     //@ts-ignore
     currency.add(message.author.id, -totalCost);
 
@@ -47,6 +51,7 @@ export default {
         .setDescription(`code: ${Math.random().toString().slice(2)}`)
         .addField("Item bought", item.name)
         .addField("Amount bought", amount)
+        .addField("Total cost", item.cost * amount)
         .setColor("RANDOM")
         .setFooter(client.user?.tag)
         .setTimestamp(message.createdAt)

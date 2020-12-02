@@ -4,66 +4,38 @@ import path from "path";
 import Command from "./Command";
 import { token, prefix } from "./config.json";
 
-const client = new Discord.Client();
+const { Users, CurrencyShop } = require("./dbObjects");
+
+export const client = new Discord.Client();
 client.commands = new Discord.Collection<string, Command>();
+
 const cooldowns = new Discord.Collection<
   string,
   Discord.Collection<string, number>
 >();
-const { Users, CurrencyShop } = require("./dbObjects");
-import { Op } from "sequelize";
-const currency = new Discord.Collection<any, any>();
 
-const commandFiles = fs
-  .readdirSync(path.join(__dirname, "/commands"))
-  .filter((file) => file.endsWith(".ts"));
+export const currency = new Discord.Collection<any, any>();
 
-for (const file of commandFiles) {
-  const command: Command = require(`./commands/${file}`).default;
+fs.readdirSync(path.join(__dirname, "/commands"))
+  .filter((file) => file.endsWith(".ts"))
+  .forEach((file) => {
+    const command: Command = require(`./commands/${file}`).default;
+    client.commands.set(command.name, command);
+  });
 
-  client.commands.set(command.name, command);
-}
+fs.readdirSync(path.join(__dirname, "/extensions"))
+  .filter((file) => file.endsWith(".ts"))
+  .forEach((file) => {
+    require(`./extensions/${file}`).default();
+  });
 
-Reflect.defineProperty(currency, "add", {
-  value: async function add(id: any, amount: any) {
-    const user: any = currency.get(id);
-    if (user) {
-      user.balance += Number(amount);
-      return user.save();
-    }
-    const newUser = await Users.create({ user_id: id, balance: amount });
-    currency.set(id, newUser);
-    return newUser;
-  },
-});
-
-Reflect.defineProperty(currency, "getBalance", {
-  value: function getBalance(id: any) {
-    const user: any = currency.get(id);
-    return user ? user.balance : 0;
-  },
-});
-
-Reflect.defineProperty(currency, "getBank", {
-  value: function getBank(id: any) {
-    const user: any = currency.get(id);
-    return user ? user.bank : 0;
-  },
-});
-
-Reflect.defineProperty(currency, "getMaxBank", {
-  value: function getMaxBank(id: any) {
-    const user: any = currency.get(id);
-    return user ? user.max_bank : 0;
-  },
-});
-
-client.once("ready", async () => {
-  console.log("Ready!");
-  const storedBalances = await Users.findAll();
-  storedBalances.forEach((b: any) => currency.set(b.user_id, b));
-  client.user?.setActivity({ type: "WATCHING", name: ` for ${prefix}help` });
-});
+fs.readdirSync(path.join(__dirname, "/events"))
+  .filter((file) => file.endsWith(".ts"))
+  .forEach((file) => {
+    const event = require(`./events/${file}`).default;
+    //@ts-ignore
+    client[event.type](event.event, event.run);
+  });
 
 client.on("message", async (message) => {
   if (

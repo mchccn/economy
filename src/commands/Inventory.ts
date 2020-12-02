@@ -17,7 +17,7 @@ export default {
     const items = await user.getItems();
 
     if (!items.length)
-      return message.channel.send(`${target.tag} has nothing!`);
+      return message.channel.send(`**${target.username}** has nothing!`);
 
     const embed = new Discord.MessageEmbed()
       .setTitle(`${target.username}'s items:`)
@@ -25,8 +25,14 @@ export default {
       .setColor("RANDOM");
 
     let desc = "";
+
     for (const item of items)
-      desc += `\`${item.amount}\` - ${item.item.dataValues.emoji} ${item.item.dataValues.name}\n`;
+      if (item.amount)
+        desc += `\`${item.amount}\` - ${item.item.dataValues.emoji} ${item.item.dataValues.name}\n`;
+
+    if (!desc.length)
+      return message.channel.send(`**${target.username}** has nothing!`);
+
     embed.setDescription(desc);
 
     return message.channel.send(embed);

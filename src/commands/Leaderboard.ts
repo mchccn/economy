@@ -52,9 +52,13 @@ export default {
             .first(10)
             .map(
               (user, position) =>
-                `${["🥇", "🥈", "🥉"][position] || "🏅"} ${position + 1} ${
+                `${
+                  [":first_place:", ":second_place:", ":third_place:"][
+                    position
+                  ] || ":medal:"
+                } **${user.balance}** – ${
                   client.users.cache.get(user.user_id)!.username
-                } - ${user.balance}`
+                }`
             )
             .join("\n")
         )
