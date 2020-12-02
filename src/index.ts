@@ -1,12 +1,19 @@
 import Discord from "discord.js";
-import fs from "fs";
-import path from "path";
 import Command from "./Command";
 import { token, prefix } from "./config.json";
+import init from "./load";
 
 const { Users, CurrencyShop } = require("./dbObjects");
 
-export const client = new Discord.Client();
+const intents = new Discord.Intents([
+  Discord.Intents.NON_PRIVILEGED,
+  "GUILD_MEMBERS",
+]);
+
+export const client = new Discord.Client({
+  ws: { intents },
+});
+
 client.commands = new Discord.Collection<string, Command>();
 
 const cooldowns = new Discord.Collection<
@@ -16,26 +23,7 @@ const cooldowns = new Discord.Collection<
 
 export const currency = new Discord.Collection<any, any>();
 
-fs.readdirSync(path.join(__dirname, "/commands"))
-  .filter((file) => file.endsWith(".ts"))
-  .forEach((file) => {
-    const command: Command = require(`./commands/${file}`).default;
-    client.commands.set(command.name, command);
-  });
-
-fs.readdirSync(path.join(__dirname, "/extensions"))
-  .filter((file) => file.endsWith(".ts"))
-  .forEach((file) => {
-    require(`./extensions/${file}`).default();
-  });
-
-fs.readdirSync(path.join(__dirname, "/events"))
-  .filter((file) => file.endsWith(".ts"))
-  .forEach((file) => {
-    const event = require(`./events/${file}`).default;
-    //@ts-ignore
-    client[event.type](event.event, event.run);
-  });
+init(client);
 
 client.on("message", async (message) => {
   if (

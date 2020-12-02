@@ -1,6 +1,6 @@
 import Discord from "discord.js";
-import Command, { Category } from "../Command";
-import parseUsers from "../utils/parseUsers";
+import Command, { Category } from "../../Command";
+import parseUsers from "../../utils/parseUsers";
 
 export default {
   name: "shop",

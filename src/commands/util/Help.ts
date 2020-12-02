@@ -1,5 +1,5 @@
-import Command, { Category } from "../Command";
-import { prefix } from "../config.json";
+import Command, { Category } from "../../Command";
+import { prefix } from "../../config.json";
 import Discord from "discord.js";
 
 export default {

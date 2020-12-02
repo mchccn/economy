@@ -1,4 +1,4 @@
-import Command, { Category } from "../Command";
+import Command, { Category } from "../../Command";
 
 export default {
   name: "say",

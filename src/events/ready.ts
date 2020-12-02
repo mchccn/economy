@@ -11,5 +11,8 @@ export default {
     const storedBalances = await Users.findAll();
     storedBalances.forEach((b: any) => currency.set(b.user_id, b));
     client.user?.setActivity({ type: "WATCHING", name: ` for ${prefix}help` });
+    client.guilds.cache.forEach((guild) => {
+      guild.members.fetch();
+    });
   },
 };
