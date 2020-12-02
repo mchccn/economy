@@ -1,6 +1,4 @@
-import Discord from "discord.js";
 import Command, { Category } from "../../Command";
-import parseUsers from "../../utils/parseUsers";
 
 export default {
   name: "hourly",
@@ -11,7 +9,7 @@ export default {
   description: "Get your hour's worth",
   cooldown: 3600,
   async execute(message, args, client, users) {
-    const amount = 100;
+    const amount = Math.round(Math.random() * 20.25 + 20);
     //@ts-ignore
     const user = await users.findOne({
       where: {

@@ -11,17 +11,18 @@ module.exports = (sequelize: Sequelize, dataTypes: typeof DataTypes) => {
       balance: {
         type: dataTypes.INTEGER,
         defaultValue: 0,
-        allowNull: false,
       },
       bank: {
         type: dataTypes.INTEGER,
         defaultValue: 0,
-        allowNull: false,
       },
       max_bank: {
         type: dataTypes.INTEGER,
         defaultValue: 250,
-        allowNull: false,
+      },
+      passive: {
+        type: dataTypes.BOOLEAN,
+        defaultValue: false,
       },
     },
     {

@@ -30,6 +30,16 @@ Users.prototype.addItem = async function (item: any) {
   });
 };
 
+Users.prototype.useItem = async function (item: any) {
+  const userItem = await UserItems.findOne({
+    where: { user_id: this.user_id, item_id: item.id },
+  });
+
+  if (userItem.type === "COLLECTABLE") return;
+
+  //TODO: implement item usage
+};
+
 Users.prototype.removeItem = async function (item: any) {
   const userItem = await UserItems.findOne({
     where: { user_id: this.user_id, item_id: item.id },

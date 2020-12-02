@@ -23,18 +23,32 @@ try {
         name: "Tea",
         cost: 5,
         description: "Drink some tea",
+        worth: "SMALL",
+        type: "COLLECTABLE",
       }),
       CurrencyShop.upsert({
         emoji: "☕",
         name: "Coffee",
         cost: 10,
         description: "Drink some coffee",
+        worth: "SMALL",
+        type: "COLLECTABLE",
       }),
       CurrencyShop.upsert({
         emoji: "🍰",
         name: "Cake",
         cost: 20,
         description: "Eat some cake",
+        worth: "SMALL",
+        type: "COLLECTABLE",
+      }),
+      CurrencyShop.upsert({
+        emoji: "🧲",
+        name: "Magnet",
+        cost: 100,
+        description: "Find some coins",
+        worth: "MEDIUM",
+        type: "USE_MANY",
       }),
     ];
     await Promise.all(shop);

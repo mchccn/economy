@@ -31,6 +31,19 @@ client.on("message", async (message) => {
   )
     return;
 
+  if (
+    !(await Users.findOne({
+      where: {
+        user_id: message.author.id,
+      },
+    }))
+  ) {
+    await Users.create({ user_id: message.author.id, balance: 0 });
+    return message.channel.send(
+      "Thanks for joining! Try again in a few moments, I'm registering you into my cache."
+    );
+  }
+
   const args = message.content.slice(prefix.length).trim().split(/ +/);
   const commandName = args.shift()!.toLowerCase();
 
