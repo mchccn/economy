@@ -19,7 +19,6 @@ type Command = {
     message: Discord.Message,
     args: string[],
     client: Discord.Client,
-    currency: Collection<any, any>,
     users: any,
     shop: any
   ): any;

@@ -10,7 +10,7 @@ export default {
   category: Category.ECONOMY,
   description: "Visit the shop for items to buy",
   cooldown: 2,
-  async execute(message, args, client, currency, users, shop) {
+  async execute(message, args, client, users, shop) {
     const items = await shop.findAll();
 
     const embed = new Discord.MessageEmbed()

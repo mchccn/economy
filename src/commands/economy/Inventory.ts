@@ -10,7 +10,7 @@ export default {
   category: Category.ECONOMY,
   description: "View your inventory, or someone else's",
   cooldown: 2,
-  async execute(message, args, client, currency, Users) {
+  async execute(message, args, client, Users) {
     const target = parseUsers(args, message)[0] || message.author;
     if (!target) return message.channel.send("User not found!");
     const user = await Users.findOne({ where: { user_id: target.id } });

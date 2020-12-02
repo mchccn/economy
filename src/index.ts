@@ -21,8 +21,6 @@ const cooldowns = new Discord.Collection<
   Discord.Collection<string, number>
 >();
 
-export const currency = new Discord.Collection<any, any>();
-
 init(client);
 
 client.on("message", async (message) => {
@@ -75,7 +73,7 @@ client.on("message", async (message) => {
   }
 
   try {
-    command.execute(message, args, client, currency, Users, CurrencyShop);
+    command.execute(message, args, client, Users, CurrencyShop);
   } catch (err) {
     console.error(err);
     message.channel.send("Something went wrong!");

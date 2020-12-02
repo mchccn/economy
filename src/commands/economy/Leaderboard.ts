@@ -10,7 +10,7 @@ export default {
   category: Category.ECONOMY,
   description: "See who's the best",
   cooldown: 0,
-  async execute(message, args, client, currency, users) {
+  async execute(message, args, client, users) {
     const top = await users.findAll({
       limit: 10,
       order: [["balance", "DESC"]],

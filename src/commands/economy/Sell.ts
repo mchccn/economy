@@ -11,7 +11,7 @@ export default {
   category: Category.ECONOMY,
   description: "View your balance, or someone else's",
   cooldown: 1,
-  async execute(message, args, client, currency, users, shop) {
+  async execute(message, args, client, users, shop) {
     const item = await shop.findOne({
       where: { name: { [Op.like]: args[0] } },
     });

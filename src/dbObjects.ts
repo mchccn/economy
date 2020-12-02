@@ -30,6 +30,15 @@ Users.prototype.addItem = async function (item: any) {
   });
 };
 
+Users.prototype.removeItem = async function (item: any) {
+  const userItem = await UserItems.findOne({
+    where: { user_id: this.user_id, item_id: item.id },
+  });
+
+  userItem.amount -= 1;
+  return userItem.save();
+};
+
 Users.prototype.getItems = function () {
   return UserItems.findAll({
     where: { user_id: this.user_id },

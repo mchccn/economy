@@ -10,7 +10,7 @@ export default {
   category: Category.ECONOMY,
   description: "View your balance, or someone else's",
   cooldown: 1,
-  async execute(message, args, client, currency, users) {
+  async execute(message, args, client, users) {
     const target = parseUsers(args, message)[0] || message.author;
 
     const user = await users.findOne({

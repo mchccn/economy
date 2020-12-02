@@ -10,12 +10,12 @@ export default {
   category: Category.ECONOMY,
   description: "Buy an item, or items.",
   cooldown: 5,
-  async execute(message, args, client, currency, Users, shop) {
+  async execute(message, args, client, users, shop) {
     const item = await shop.findOne({
       where: { name: { [Op.like]: args[0] } },
     });
 
-    const user = await Users.findOne({ where: { user_id: message.author.id } });
+    const user = await users.findOne({ where: { user_id: message.author.id } });
 
     if (!item) return message.channel.send(`That item doesn't exist.`);
 
@@ -31,17 +31,18 @@ export default {
     const totalCost = item.cost * amount;
 
     //@ts-ignore
-    if (totalCost > currency.getBalance(message.author.id)) {
+    if (totalCost > user.balance) {
       return message.channel.send(
         //@ts-ignore
-        `You currently have ${currency.getBalance(
-          message.author.id
-        )} coins, but the you need ${totalCost} coins to buy ${amount}!`
+        `You currently have ${user.balance} coins, but the you need ${totalCost} coins to buy ${amount}!`
       );
     }
 
     //@ts-ignore
-    currency.add(message.author.id, -totalCost);
+    user.decrement("balance", {
+      by: totalCost,
+    });
+    user.save();
 
     for (let i = 0; i < amount; i++) await user.addItem(item);
 
