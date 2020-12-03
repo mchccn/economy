@@ -17,10 +17,10 @@ export default {
       },
     });
     user.increment("balance", {
-      by: amount,
+      by: Math.round(amount * user.multiplier),
     });
     user.increment("max_bank", {
-      by: 50,
+      by: Math.round(50 * user.multiplier),
     });
     user.save();
     message.channel.send(`You got ${amount} coins!`);

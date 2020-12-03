@@ -26,6 +26,7 @@ try {
         description: "Drink some tea",
         worth: "SMALL",
         type: "COLLECTABLE",
+        edible: false,
       }),
       CurrencyShop.upsert({
         emoji: "☕",
@@ -34,6 +35,7 @@ try {
         description: "Drink some coffee",
         worth: "SMALL",
         type: "COLLECTABLE",
+        edible: false,
       }),
       CurrencyShop.upsert({
         emoji: "🍰",
@@ -41,7 +43,8 @@ try {
         cost: 25,
         description: "Eat some cake",
         worth: "SMALL",
-        type: "COLLECTABLE",
+        type: "USE_ONCE",
+        edible: true,
       }),
       CurrencyShop.upsert({
         emoji: "🧲",
@@ -50,6 +53,7 @@ try {
         description: "Find some coins",
         worth: "MEDIUM",
         type: "USE_MANY",
+        edible: false,
       }),
     ];
     await Promise.all(shop);

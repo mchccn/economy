@@ -46,7 +46,7 @@ export default {
     const refund = Math.floor(userItem.item.dataValues.cost / 2) * amount;
 
     user.increment("balance", {
-      by: refund,
+      by: Math.round(refund * user.multiplier),
     });
     user.save();
 

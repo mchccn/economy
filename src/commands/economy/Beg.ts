@@ -34,17 +34,17 @@ export default {
       ? ((a: any[]) => a[Math.floor(Math.random() * a.length)])(
           await CurrencyShop.findAll({
             where: {
-              type: "COLLECTABLE",
+              worth: "SMALL",
             },
           })
         )
       : undefined;
 
-    const coins = deny ? undefined : Math.floor(Math.random() * 5 + 5);
+    const coins = deny ? 0 : Math.floor(Math.random() * 5 + 5);
 
     if (item) user.addItem(item);
 
-    user.balance += coins;
+    user.balance += Math.round(coins * user.multiplier);
     user.save();
 
     const { first, last } = (

@@ -16,7 +16,11 @@ export default {
     return message.channel.send(
       new MessageEmbed()
         .setTitle(user.username)
-        .setThumbnail(user.displayAvatarURL())
+        .setThumbnail(
+          user.displayAvatarURL({
+            dynamic: true,
+          })
+        )
         .setDescription(`Status: \`${user.presence.status}\``)
         .addField("Username", user.username, true)
         .addField("Tag", user.tag, true)

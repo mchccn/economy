@@ -30,6 +30,10 @@ module.exports = (sequelize: Sequelize, dataTypes: typeof DataTypes) => {
         allowNull: false,
         defaultValue: "COLLECTABLE",
       },
+      edible: {
+        type: dataTypes.BOOLEAN,
+        defaultValue: false,
+      },
     },
     {
       timestamps: false,

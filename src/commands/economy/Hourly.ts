@@ -17,7 +17,7 @@ export default {
       },
     });
     user.increment("balance", {
-      by: amount,
+      by: Math.round(amount * user.multiplier),
     });
     user.save();
     message.channel.send(`You got ${amount} coins!`);
