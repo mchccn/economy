@@ -1,5 +1,6 @@
-import Command, { Category } from "../../Command";
 import fetch from "node-fetch";
+import { CurrencyShop, Users } from "../../";
+import Command, { Category } from "../../Command";
 
 const replies = [
   "no u",
@@ -18,8 +19,8 @@ export default {
   category: Category.ECONOMY,
   description: "Beg for money...",
   cooldown: 15,
-  async execute(message, args, client, users, shop) {
-    const user = await users.findOne({
+  async execute(message, args, client) {
+    const user = await Users.findOne({
       where: {
         user_id: message.author.id,
       },
@@ -31,7 +32,7 @@ export default {
       ? undefined
       : Math.random() > 0.8
       ? ((a: any[]) => a[Math.floor(Math.random() * a.length)])(
-          await shop.findAll({
+          await CurrencyShop.findAll({
             where: {
               type: "COLLECTABLE",
             },

@@ -15,13 +15,7 @@ type Command = {
   args: boolean;
   usage: string;
   cooldown: number;
-  execute(
-    message: Message,
-    args: string[],
-    client: Client,
-    users: any,
-    shop: any
-  ): any;
+  execute(message: Message, args: string[], client: Client): any;
 };
 
 export default Command;

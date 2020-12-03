@@ -1,5 +1,6 @@
-import Discord, { MessageEmbed } from "discord.js";
+import { MessageEmbed } from "discord.js";
 import { Op } from "sequelize";
+import { CurrencyShop, Users } from "../..";
 import Command, { Category } from "../../Command";
 
 export default {
@@ -10,12 +11,12 @@ export default {
   category: Category.ECONOMY,
   description: "Buy an item, or items.",
   cooldown: 5,
-  async execute(message, args, client, users, shop) {
-    const item = await shop.findOne({
+  async execute(message, args, client) {
+    const item = await CurrencyShop.findOne({
       where: { name: { [Op.like]: args[0] } },
     });
 
-    const user = await users.findOne({ where: { user_id: message.author.id } });
+    const user = await Users.findOne({ where: { user_id: message.author.id } });
 
     if (!item) {
       message.channel.send(`That item doesn't exist.`);

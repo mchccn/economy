@@ -1,5 +1,5 @@
+import { Blacklisted } from "../../";
 import Command, { Category } from "../../Command";
-const { Blacklisted } = require("../../dbObjects");
 
 export default {
   name: "blacklist",
@@ -9,9 +9,11 @@ export default {
   category: Category.DEV,
   description: "Blacklist a user.",
   cooldown: 0,
-  async execute(message, args, client, users) {
+  async execute(message, args, client) {
     if (args[0] === "all") {
       const blacklist = await Blacklisted.findAll();
+      if (!blacklist.length)
+        return message.channel.send("No blacklisted users.");
       for (let i = 0; i < blacklist.length; i += 100) {
         message.channel.send(
           blacklist
@@ -20,6 +22,7 @@ export default {
             .join("\n")
         );
       }
+      return;
     }
 
     if (!/^\d{18}$/.test(args[0]))

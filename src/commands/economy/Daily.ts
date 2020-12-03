@@ -1,3 +1,4 @@
+import { Users } from "../..";
 import Command, { Category } from "../../Command";
 
 export default {
@@ -8,9 +9,9 @@ export default {
   category: Category.ECONOMY,
   description: "Get your day's worth",
   cooldown: 86400,
-  async execute(message, args, client, users) {
+  async execute(message, args, client) {
     const amount = Math.round(Math.random() * 50 + 50);
-    const user = await users.findOne({
+    const user = await Users.findOne({
       where: {
         user_id: message.author.id,
       },

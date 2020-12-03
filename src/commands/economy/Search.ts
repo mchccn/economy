@@ -1,4 +1,5 @@
 import { Message } from "discord.js";
+import { Users } from "../..";
 import Command, { Category } from "../../Command";
 
 const areas = [
@@ -186,7 +187,7 @@ export default {
   category: Category.ECONOMY,
   cooldown: 30,
   description: "Search for coins!",
-  async execute(message, args, client, users) {
+  async execute(message, args, client) {
     const shuffled = shuffleArray(areas);
     const chosen = shuffled.slice(0, 3);
     const prompt = `Where do you want to search?\n${chosen
@@ -211,7 +212,7 @@ export default {
 
     if (!choice) return "invalid";
 
-    const user = await users.findOne({
+    const user = await Users.findOne({
       where: {
         user_id: message.author.id,
       },

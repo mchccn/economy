@@ -1,6 +1,6 @@
-import { Sequelize, DataTypes } from "sequelize";
+import { DataTypes, Sequelize } from "sequelize";
 
-const sequelize = new Sequelize("database", "username", "password", {
+export const sequelize = new Sequelize("database", "username", "password", {
   host: "localhost",
   dialect: "sqlite",
   logging: false,
@@ -47,4 +47,4 @@ Users.prototype.getItems = function () {
   });
 };
 
-module.exports = { Users, CurrencyShop, UserItems, Blacklisted };
+export { Users, CurrencyShop, UserItems, Blacklisted };

@@ -1,11 +1,12 @@
 import Discord from "discord.js";
-import Command, { Category } from "./Command";
-import { prefix, token, devs } from "./config.json";
-import init from "./load";
 import ms from "ms";
+import Command, { Category } from "./Command";
+import { devs, prefix, token } from "./config.json";
+import { Blacklisted, CurrencyShop, Users } from "./dbObjects";
+import init from "./load";
 import parseUsers from "./utils/parseUsers";
 
-export const { Users, CurrencyShop, Blacklisted } = require("./dbObjects");
+export { Blacklisted, CurrencyShop, Users };
 
 const intents = new Discord.Intents([
   Discord.Intents.NON_PRIVILEGED,
@@ -120,17 +121,21 @@ client.on("message", async (message) => {
     if (now < expirationTime) {
       const timeLeft = expirationTime - now;
       return message.channel.send(
-        `Please wait ${ms(Math.round(timeLeft), {
-          long: true,
-        })} before reusing the \`${command.name}\` command.`
+        `Please wait ${
+          ms(Math.round(timeLeft), {
+            long: true,
+          }).endsWith("ms")
+            ? `${(timeLeft / 1000).toFixed(1)} seconds`
+            : ms(Math.round(timeLeft), {
+                long: true,
+              })
+        } before reusing the \`${command.name}\` command.`
       );
     }
   }
 
   try {
-    if (
-      command.execute(message, args, client, Users, CurrencyShop) !== "invalid"
-    ) {
+    if (command.execute(message, args, client) !== "invalid") {
       timestamps!.set(message.author.id, now);
       setTimeout(() => timestamps!.delete(message.author.id), cooldownAmount);
     }

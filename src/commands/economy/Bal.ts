@@ -1,4 +1,5 @@
 import { MessageEmbed } from "discord.js";
+import { Users } from "../..";
 import Command, { Category } from "../../Command";
 import parseUsers from "../../utils/parseUsers";
 
@@ -10,10 +11,10 @@ export default {
   category: Category.ECONOMY,
   description: "View your balance, or someone else's",
   cooldown: 1,
-  async execute(message, args, client, users) {
+  async execute(message, args, client) {
     const target = parseUsers(args, message)[0] || message.author;
 
-    const user = await users.findOne({
+    const user = await Users.findOne({
       where: {
         user_id: target.id,
       },

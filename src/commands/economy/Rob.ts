@@ -8,5 +8,7 @@ export default {
   cooldown: 60,
   description: "Rob someone!",
   usage: "<user>",
-  async execute(message, args, client, users) {},
+  async execute(message, args, client) {
+    //TODO
+  },
 } as Command;

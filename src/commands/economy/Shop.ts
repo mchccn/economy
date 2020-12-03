@@ -1,5 +1,6 @@
 import { MessageEmbed } from "discord.js";
 import Command, { Category } from "../../Command";
+import { CurrencyShop } from "../../index";
 
 export default {
   name: "shop",
@@ -9,8 +10,8 @@ export default {
   category: Category.ECONOMY,
   description: "Visit the shop for items to buy",
   cooldown: 2,
-  async execute(message, args, client, users, shop) {
-    const items = await shop.findAll();
+  async execute(message, args, client) {
+    const items = await CurrencyShop.findAll();
 
     const embed = new MessageEmbed()
       .setColor("RANDOM")

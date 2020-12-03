@@ -1,4 +1,5 @@
 import { MessageEmbed } from "discord.js";
+import { Users } from "../..";
 import Command, { Category } from "../../Command";
 import parseUsers from "../../utils/parseUsers";
 
@@ -10,8 +11,8 @@ export default {
   category: Category.ECONOMY,
   description: "See who's the best",
   cooldown: 0,
-  async execute(message, args, client, users) {
-    const top = await users.findAll({
+  async execute(message, args, client) {
+    const top = await Users.findAll({
       limit: 10,
       order: [["balance", "DESC"]],
     });

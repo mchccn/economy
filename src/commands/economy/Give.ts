@@ -1,4 +1,5 @@
 import { Op } from "sequelize";
+import { CurrencyShop, Users } from "../../";
 import Command, { Category } from "../../Command";
 import parseUsers from "../../utils/parseUsers";
 
@@ -10,8 +11,8 @@ export default {
   category: Category.ECONOMY,
   description: "Give stuff to someone",
   cooldown: 5,
-  async execute(message, args, client, users, shop) {
-    const author = await users.findOne({
+  async execute(message, args, client) {
+    const author = await Users.findOne({
       where: {
         user_id: message.author.id,
       },
@@ -25,7 +26,7 @@ export default {
       return "invalid";
     }
 
-    const target = await users.findOne({
+    const target = await Users.findOne({
       where: {
         user_id: transferTarget?.id,
       },
@@ -81,7 +82,7 @@ export default {
         }.`
       );
     } else {
-      const item = await shop.findOne({
+      const item = await CurrencyShop.findOne({
         where: { name: { [Op.like]: args[2] } },
       });
 

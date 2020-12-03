@@ -1,6 +1,7 @@
 import { MessageEmbed } from "discord.js";
 import { Op } from "sequelize";
 import Command, { Category } from "../../Command";
+import { CurrencyShop, Users } from "../../index";
 
 export default {
   name: "sell",
@@ -10,12 +11,12 @@ export default {
   category: Category.ECONOMY,
   description: "View your balance, or someone else's",
   cooldown: 1,
-  async execute(message, args, client, users, shop) {
-    const item = await shop.findOne({
+  async execute(message, args, client) {
+    const item = await CurrencyShop.findOne({
       where: { name: { [Op.like]: args[0] } },
     });
 
-    const user = await users.findOne({
+    const user = await Users.findOne({
       where: { user_id: message.author.id },
     });
 

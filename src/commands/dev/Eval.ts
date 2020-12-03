@@ -8,7 +8,7 @@ export default {
   category: Category.DEV,
   description: "Run some JS",
   cooldown: 0,
-  async execute(message, args, client, users) {
+  async execute(message, args, client) {
     const code = args.join(" ");
 
     if (
@@ -19,7 +19,7 @@ export default {
       code.includes("global") ||
       code.includes("process")
     )
-      return "Unauthorized.";
+      return message.channel.send("401 Unauthorized");
 
     try {
       eval(code);

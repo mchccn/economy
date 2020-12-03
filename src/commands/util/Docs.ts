@@ -1,7 +1,7 @@
-import Command, { Category } from "../../Command";
-import fetch from "node-fetch";
-import parseTrim from "../../utils/parseTrim";
 import { MessageEmbed } from "discord.js";
+import fetch from "node-fetch";
+import Command, { Category } from "../../Command";
+import parseTrim from "../../utils/parseTrim";
 
 export default {
   name: "docs",
@@ -11,7 +11,7 @@ export default {
   category: Category.UTIL,
   description: "Search the discord.js docs",
   cooldown: 1,
-  async execute(message, args, client, users) {
+  async execute(message, args, client) {
     const platform = args[0];
     const query = args.slice(1);
 

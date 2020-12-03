@@ -1,7 +1,7 @@
+import { Client } from "discord.js";
 import fs from "fs";
 import path from "path";
 import Command from "./Command";
-import { Client } from "discord.js";
 
 export default function init(client: Client) {
   fs.readdirSync(path.join(__dirname, "/commands")).forEach((folder) => {

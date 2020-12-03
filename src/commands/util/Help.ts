@@ -15,41 +15,37 @@ export default {
     const { commands } = client;
 
     if (!args.length) {
-      try {
-        await message.author.send(
-          new MessageEmbed()
-            .setTitle("Help")
-            .setColor("RANDOM")
-            .setDescription(
-              `Use \`${prefix}help <command>\` for info on a specific command.`
-            )
-            .setFooter(client.user?.tag)
-            .setTimestamp(message.createdAt)
-            .addFields(
-              Object.keys(Category)
-                .filter((key) => !/[0-9]+/.test(key))
-                .map((cat) => {
-                  return {
-                    name: cat.toLowerCase(),
-                    value:
-                      commands
-                        .filter((cmd) => cmd.category === Object(Category)[cat])
-                        .map((cmd) => `\`${cmd.name}\``)
-                        .join("\n") || "None",
-                  };
-                })
-            )
-        );
-
-        return message.react("✅");
-      } catch (e) {
-        console.log(e);
-
-        message.channel.send(
-          "Couldn't send the message. Do you have DMs disabled?"
-        );
-        return "invalid";
-      }
+      return message.channel.send(
+        new MessageEmbed()
+          .setTitle("Help")
+          .setURL("https://discord.gg/KuVNy9mrT3")
+          .setColor("RANDOM")
+          .setDescription(
+            `Use \`${prefix}help <command>\` for info on a specific command.\nJoin the [support server](https://discord.gg/KuVNy9mrT3) for announcements and more information.`
+          )
+          .setFooter(client.user?.tag)
+          .setTimestamp(message.createdAt)
+          .addFields(
+            Object.keys(Category)
+              .filter(
+                (key) => !/[0-9]+/.test(key) && key.toLowerCase() !== "dev"
+              )
+              .map((cat) => {
+                return {
+                  name: cat.toLowerCase(),
+                  value:
+                    commands
+                      .filter(
+                        (cmd) =>
+                          cmd.category === Object(Category)[cat] &&
+                          cmd.category !== Category.DEV
+                      )
+                      .map((cmd) => `\`${cmd.name}\``)
+                      .join(", ") || "None",
+                };
+              })
+          )
+      );
     }
 
     const name = args[0].toLowerCase();
