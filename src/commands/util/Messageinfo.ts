@@ -1,4 +1,4 @@
-import Discord from "discord.js";
+import { MessageEmbed, TextChannel } from "discord.js";
 import Command, { Category } from "../../Command";
 
 export default {
@@ -13,19 +13,27 @@ export default {
     try {
       const ids = args[0].split("-");
 
-      const channel = client.channels.cache.get(ids[0]) as Discord.TextChannel;
+      const channel = client.channels.cache.get(ids[0]) as TextChannel;
 
-      if (!channel) return message.channel.send("Message not found!");
+      if (!channel) {
+        message.channel.send("Message not found!");
+        return "invalid";
+      }
 
-      if (!["text", "news"].includes(channel.type))
-        return message.channel.send("I can only retrieve text channels!");
+      if (!["text", "news"].includes(channel.type)) {
+        message.channel.send("I can only retrieve text channels!");
+        return "invalid";
+      }
 
       const msg = await channel.messages.fetch(ids[1]);
 
-      if (!msg) return message.channel.send("Message not found!");
+      if (!msg) {
+        message.channel.send("Message not found!");
+        return "invalid";
+      }
 
       return message.channel.send(
-        new Discord.MessageEmbed()
+        new MessageEmbed()
           .setTitle(args[0])
           .setDescription(msg.content)
           .addField("Author", msg.author.tag)
@@ -36,7 +44,8 @@ export default {
       );
     } catch (e) {
       console.log(e);
-      return message.channel.send("Message not found!");
+      message.channel.send("Message not found!");
+      return "invalid";
     }
   },
 } as Command;

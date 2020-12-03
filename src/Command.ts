@@ -1,10 +1,10 @@
-import Discord, { Collection } from "discord.js";
-import { Sequelize } from "sequelize";
+import { Client, Message } from "discord.js";
 
 export enum Category {
   UTIL = "util",
   ECONOMY = "economy",
   FUN = "fun",
+  DEV = "dev",
 }
 
 type Command = {
@@ -16,9 +16,9 @@ type Command = {
   usage: string;
   cooldown: number;
   execute(
-    message: Discord.Message,
+    message: Message,
     args: string[],
-    client: Discord.Client,
+    client: Client,
     users: any,
     shop: any
   ): any;

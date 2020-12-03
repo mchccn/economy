@@ -1,4 +1,4 @@
-import Discord from "discord.js";
+import { MessageEmbed } from "discord.js";
 import Command, { Category } from "../../Command";
 import parseUsers from "../../utils/parseUsers";
 
@@ -19,7 +19,7 @@ export default {
     if (!items.length)
       return message.channel.send(`**${target.username}** has nothing!`);
 
-    const embed = new Discord.MessageEmbed()
+    const embed = new MessageEmbed()
       .setTitle(`${target.username}'s items:`)
       .setThumbnail(target.avatarURL()!)
       .setColor("RANDOM");

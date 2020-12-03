@@ -1,6 +1,6 @@
+import { MessageEmbed } from "discord.js";
 import Command, { Category } from "../../Command";
 import { prefix } from "../../config.json";
-import Discord from "discord.js";
 
 export default {
   name: "help",
@@ -16,8 +16,8 @@ export default {
 
     if (!args.length) {
       try {
-        const help = await message.author.send(
-          new Discord.MessageEmbed()
+        await message.author.send(
+          new MessageEmbed()
             .setTitle("Help")
             .setColor("RANDOM")
             .setDescription(
@@ -45,9 +45,10 @@ export default {
       } catch (e) {
         console.log(e);
 
-        return message.channel.send(
+        message.channel.send(
           "Couldn't send the message. Do you have DMs disabled?"
         );
+        return "invalid";
       }
     }
 
@@ -56,11 +57,13 @@ export default {
       commands.get(name) ||
       commands.find((c) => c.aliases && c.aliases.includes(name));
 
-    if (!command)
-      return message.channel.send(`Couldn't find the command \`${name}\`!`);
+    if (!command) {
+      message.channel.send(`Couldn't find the command \`${name}\`!`);
+      return "invalid";
+    }
 
     return message.channel.send(
-      new Discord.MessageEmbed()
+      new MessageEmbed()
         .setTitle(`Info for ${command.name}`)
         .setDescription(
           `Arguments wrapped in \`<>\` are required and arguments wrapped in \`[]\` are optional.\nArguments separated by \`|\` indicates separate prompts.`

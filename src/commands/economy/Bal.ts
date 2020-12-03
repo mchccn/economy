@@ -1,4 +1,4 @@
-import Discord from "discord.js";
+import { MessageEmbed } from "discord.js";
 import Command, { Category } from "../../Command";
 import parseUsers from "../../utils/parseUsers";
 
@@ -20,7 +20,7 @@ export default {
     });
 
     return message.channel.send(
-      new Discord.MessageEmbed()
+      new MessageEmbed()
         .setTitle(`${target?.username}'s balance`)
         .setColor("RANDOM")
         .setThumbnail(target.displayAvatarURL())

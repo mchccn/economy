@@ -1,6 +1,5 @@
-import Discord from "discord.js";
+import { MessageEmbed } from "discord.js";
 import Command, { Category } from "../../Command";
-import parseUsers from "../../utils/parseUsers";
 
 export default {
   name: "shop",
@@ -13,7 +12,7 @@ export default {
   async execute(message, args, client, users, shop) {
     const items = await shop.findAll();
 
-    const embed = new Discord.MessageEmbed()
+    const embed = new MessageEmbed()
       .setColor("RANDOM")
       .setFooter(client.user?.tag)
       .setTimestamp(message.createdTimestamp)

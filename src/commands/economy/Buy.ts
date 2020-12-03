@@ -1,4 +1,4 @@
-import Discord from "discord.js";
+import Discord, { MessageEmbed } from "discord.js";
 import { Op } from "sequelize";
 import Command, { Category } from "../../Command";
 
@@ -17,12 +17,16 @@ export default {
 
     const user = await users.findOne({ where: { user_id: message.author.id } });
 
-    if (!item) return message.channel.send(`That item doesn't exist.`);
-
+    if (!item) {
+      message.channel.send(`That item doesn't exist.`);
+      return "invalid";
+    }
     let amount = parseInt(args[1]) || 1;
 
-    if (amount <= 0)
-      return message.channel.send("Invalid amount of items to purchase!");
+    if (amount <= 0) {
+      message.channel.send("Invalid amount of items to purchase!");
+      return "invalid";
+    }
 
     if (["all", "max"].includes(args[1]))
       if (user.balance % item.cost === 0) amount = user.balance / item.cost;
@@ -32,10 +36,11 @@ export default {
 
     //@ts-ignore
     if (totalCost > user.balance) {
-      return message.channel.send(
+      message.channel.send(
         //@ts-ignore
         `You currently have ${user.balance} coins, but the you need ${totalCost} coins to buy ${amount}!`
       );
+      return "invalid";
     }
 
     //@ts-ignore
@@ -47,7 +52,7 @@ export default {
     for (let i = 0; i < amount; i++) await user.addItem(item);
 
     message.channel.send(
-      new Discord.MessageEmbed()
+      new MessageEmbed()
         .setTitle("Thank you for shopping!")
         .setDescription(`code: ${Math.random().toString().slice(2)}`)
         .addField("Item bought", item.name)

@@ -1,4 +1,4 @@
-import Discord from "discord.js";
+import { MessageEmbed } from "discord.js";
 import Command, { Category } from "../../Command";
 import parseUsers from "../../utils/parseUsers";
 
@@ -29,7 +29,10 @@ export default {
 
       const user = parseUsers(args, message)[0];
 
-      if (!user) return message.channel.send("Could not find the user!");
+      if (!user) {
+        message.channel.send("Could not find the user!");
+        return "invalid";
+      }
 
       return message.channel.send(
         `${user?.username}'s position: \`${
@@ -40,7 +43,7 @@ export default {
 
     try {
       return message.channel.send(
-        new Discord.MessageEmbed()
+        new MessageEmbed()
           .setTitle("Top Players")
           .setColor("RANDOM")
           .setFooter(client.user?.tag)

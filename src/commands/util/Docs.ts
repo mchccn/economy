@@ -1,7 +1,7 @@
-import Discord from "discord.js";
 import Command, { Category } from "../../Command";
 import fetch from "node-fetch";
 import parseTrim from "../../utils/parseTrim";
+import { MessageEmbed } from "discord.js";
 
 export default {
   name: "docs",
@@ -36,8 +36,8 @@ export default {
 
       const json = await res.json();
 
-      message.channel.send(
-        new Discord.MessageEmbed()
+      return message.channel.send(
+        new MessageEmbed()
           .setColor("RANDOM")
           .setDescription(
             parseTrim(

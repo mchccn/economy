@@ -10,6 +10,7 @@ const sequelize = new Sequelize("database", "username", "password", {
 const Users = require("./models/Users")(sequelize, DataTypes);
 const CurrencyShop = require("./models/CurrencyShop")(sequelize, DataTypes);
 const UserItems = require("./models/UserItems")(sequelize, DataTypes);
+const Blacklisted = require("./models/Blacklisted")(sequelize, DataTypes);
 
 UserItems.belongsTo(CurrencyShop, { foreignKey: "item_id", as: "item" });
 
@@ -30,16 +31,6 @@ Users.prototype.addItem = async function (item: any) {
   });
 };
 
-Users.prototype.useItem = async function (item: any) {
-  const userItem = await UserItems.findOne({
-    where: { user_id: this.user_id, item_id: item.id },
-  });
-
-  if (userItem.type === "COLLECTABLE") return;
-
-  //TODO: implement item usage
-};
-
 Users.prototype.removeItem = async function (item: any) {
   const userItem = await UserItems.findOne({
     where: { user_id: this.user_id, item_id: item.id },
@@ -56,4 +47,4 @@ Users.prototype.getItems = function () {
   });
 };
 
-module.exports = { Users, CurrencyShop, UserItems };
+module.exports = { Users, CurrencyShop, UserItems, Blacklisted };

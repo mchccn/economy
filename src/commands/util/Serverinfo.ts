@@ -1,4 +1,4 @@
-import Discord from "discord.js";
+import { MessageEmbed } from "discord.js";
 import Command, { Category } from "../../Command";
 import parseCase from "../../utils/parseCase";
 
@@ -16,7 +16,7 @@ export default {
       (c) => c.type !== "category"
     );
     return message.channel.send(
-      new Discord.MessageEmbed()
+      new MessageEmbed()
         .setTitle(guild?.name)
         .setThumbnail(guild?.iconURL()!)
         .setDescription(guild?.description || "No description")

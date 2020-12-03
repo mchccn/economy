@@ -11,6 +11,7 @@ const CurrencyShop = require("./models/CurrencyShop")(sequelize, DataTypes);
 
 require("./models/Users")(sequelize, DataTypes);
 require("./models/UserItems")(sequelize, DataTypes);
+require("./models/Blacklisted")(sequelize, DataTypes);
 
 const force = process.argv.includes("--force") || process.argv.includes("-f");
 
@@ -21,7 +22,7 @@ try {
       CurrencyShop.upsert({
         emoji: "🍵",
         name: "Tea",
-        cost: 5,
+        cost: 10,
         description: "Drink some tea",
         worth: "SMALL",
         type: "COLLECTABLE",
@@ -29,7 +30,7 @@ try {
       CurrencyShop.upsert({
         emoji: "☕",
         name: "Coffee",
-        cost: 10,
+        cost: 15,
         description: "Drink some coffee",
         worth: "SMALL",
         type: "COLLECTABLE",
@@ -37,7 +38,7 @@ try {
       CurrencyShop.upsert({
         emoji: "🍰",
         name: "Cake",
-        cost: 20,
+        cost: 25,
         description: "Eat some cake",
         worth: "SMALL",
         type: "COLLECTABLE",
@@ -45,7 +46,7 @@ try {
       CurrencyShop.upsert({
         emoji: "🧲",
         name: "Magnet",
-        cost: 100,
+        cost: 200,
         description: "Find some coins",
         worth: "MEDIUM",
         type: "USE_MANY",

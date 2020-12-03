@@ -1,9 +1,11 @@
 import Discord from "discord.js";
-import Command from "./Command";
-import { token, prefix } from "./config.json";
+import Command, { Category } from "./Command";
+import { prefix, token, devs } from "./config.json";
 import init from "./load";
+import ms from "ms";
+import parseUsers from "./utils/parseUsers";
 
-const { Users, CurrencyShop } = require("./dbObjects");
+export const { Users, CurrencyShop, Blacklisted } = require("./dbObjects");
 
 const intents = new Discord.Intents([
   Discord.Intents.NON_PRIVILEGED,
@@ -32,6 +34,28 @@ client.on("message", async (message) => {
     return;
 
   if (
+    await Blacklisted.findOne({
+      where: {
+        user_id: message.author.id,
+      },
+    })
+  ) {
+    const blacklisted = await Blacklisted.findOne({
+      where: {
+        user_id: message.author.id,
+      },
+    });
+
+    if (blacklisted.notified) return;
+
+    blacklisted.notified = true;
+
+    return message.author.send(
+      `You have been blacklisted for ${blacklisted.reason}.`
+    );
+  }
+
+  if (
     !(await Users.findOne({
       where: {
         user_id: message.author.id,
@@ -39,9 +63,7 @@ client.on("message", async (message) => {
     }))
   ) {
     await Users.create({ user_id: message.author.id, balance: 0 });
-    return message.channel.send(
-      "Thanks for joining! Try again in a few moments, I'm registering you into my cache."
-    );
+    message.channel.send("Registering new user...");
   }
 
   const args = message.content.slice(prefix.length).trim().split(/ +/);
@@ -55,11 +77,34 @@ client.on("message", async (message) => {
 
   if (!command) return;
 
+  if (command.category === Category.DEV && !devs.includes(message.author.id))
+    return;
+
   if (command.args && !args.length) {
     return message.channel.send(
       `The usage of \`${command.name}\` is \`${command.usage}\`. Use \`${prefix}help ${command.name}\` for more info.`
     );
   }
+
+  let unregisteredUsers = false;
+
+  for (const user of parseUsers(args, message)) {
+    if (
+      !(await Users.findOne({
+        where: {
+          user_id: user?.id,
+        },
+      }))
+    ) {
+      await Users.create({
+        user_id: user?.id,
+      });
+
+      unregisteredUsers = true;
+    }
+  }
+
+  if (unregisteredUsers) message.channel.send("Registering new users...");
 
   if (!cooldowns.has(command.name)) {
     cooldowns.set(command.name, new Discord.Collection());
@@ -73,20 +118,22 @@ client.on("message", async (message) => {
     const expirationTime = timestamps!.get(message.author.id)! + cooldownAmount;
 
     if (now < expirationTime) {
-      const timeLeft = (expirationTime - now) / 1000;
-      return message.reply(
-        `please wait ${timeLeft.toFixed(
-          1
-        )} more second(s) before reusing the \`${command.name}\` command.`
+      const timeLeft = expirationTime - now;
+      return message.channel.send(
+        `Please wait ${ms(Math.round(timeLeft), {
+          long: true,
+        })} before reusing the \`${command.name}\` command.`
       );
     }
-  } else {
-    timestamps!.set(message.author.id, now);
-    setTimeout(() => timestamps!.delete(message.author.id), cooldownAmount);
   }
 
   try {
-    command.execute(message, args, client, Users, CurrencyShop);
+    if (
+      command.execute(message, args, client, Users, CurrencyShop) !== "invalid"
+    ) {
+      timestamps!.set(message.author.id, now);
+      setTimeout(() => timestamps!.delete(message.author.id), cooldownAmount);
+    }
   } catch (err) {
     console.error(err);
     message.channel.send("Something went wrong!");

@@ -1,7 +1,6 @@
-import Discord from "discord.js";
+import { MessageEmbed } from "discord.js";
 import { Op } from "sequelize";
 import Command, { Category } from "../../Command";
-import parseUsers from "../../utils/parseUsers";
 
 export default {
   name: "sell",
@@ -20,19 +19,26 @@ export default {
       where: { user_id: message.author.id },
     });
 
-    if (!item) return message.channel.send(`That item doesn't exist.`);
+    if (!item) {
+      message.channel.send(`That item doesn't exist.`);
+      return "invalid";
+    }
 
     let amount = parseInt(args[1]) || 1;
 
-    if (amount <= 0)
-      return message.channel.send("Invalid amount of items to sell!");
+    if (amount <= 0) {
+      message.channel.send("Invalid amount of items to sell!");
+      return "invalid";
+    }
 
     const userItem = (await user.getItems()).find(
       (i: any) => i.dataValues.item.name === item.name
     );
 
-    if (userItem.dataValues.amount < amount)
-      return message.channel.send("Sorry, but you don't have enough items");
+    if (userItem.dataValues.amount < amount) {
+      message.channel.send("Sorry, but you don't have enough items");
+      return "invalid";
+    }
 
     if (["all", "max"].includes(args[1])) amount = userItem.dataValues.amount;
 
@@ -49,7 +55,7 @@ export default {
     userItem.save();
 
     return message.channel.send(
-      new Discord.MessageEmbed()
+      new MessageEmbed()
         .setTitle("Refund")
         .setDescription(`code: ${Math.random().toString().slice(2)}`)
         .addField("Item refunded", item.name)

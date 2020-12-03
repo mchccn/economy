@@ -1,4 +1,3 @@
-import Discord from "discord.js";
 import { Op } from "sequelize";
 import Command, { Category } from "../../Command";
 import parseUsers from "../../utils/parseUsers";
@@ -21,7 +20,10 @@ export default {
 
     const transferTarget = parseUsers(args, message)[0];
 
-    if (!transferTarget) return message.channel.send("User not found!");
+    if (!transferTarget) {
+      message.channel.send("User not found!");
+      return "invalid";
+    }
 
     const target = await users.findOne({
       where: {
@@ -34,20 +36,26 @@ export default {
     if (
       (!transferAmount || isNaN(transferAmount)) &&
       !["all", "max"].includes(args[1])
-    )
-      return message.channel.send(
+    ) {
+      message.channel.send(
         `Sorry **${message.author.username}**, that's an invalid amount.`
       );
+      return "invalid";
+    }
 
-    if (transferAmount > currentAmount)
-      return message.channel.send(
+    if (transferAmount > currentAmount) {
+      message.channel.send(
         `Sorry **${message.author.username}**, you only have ${currentAmount}.`
       );
+      return "invalid";
+    }
 
-    if (transferAmount <= 0)
-      return message.channel.send(
+    if (transferAmount <= 0) {
+      message.channel.send(
         `Please enter an amount greater than zero, **${message.author.username}**.`
       );
+      return "invalid";
+    }
 
     if (!args[2]) {
       if (["all", "max"].includes(args[1])) transferAmount = author.balance;
@@ -84,8 +92,10 @@ export default {
       if (["all", "max"].includes(args[1]))
         transferAmount = userItem.dataValues.amount;
 
-      if (userItem.dataValues.amount < transferAmount)
-        return message.channel.send("Sorry, but you don't have enough items");
+      if (userItem.dataValues.amount < transferAmount) {
+        message.channel.send("Sorry, but you don't have enough items");
+        return "invalid";
+      }
 
       let targetItem = (await target.getItems()).find(
         (i: any) => i.dataValues.item.name === userItem.item.dataValues.name

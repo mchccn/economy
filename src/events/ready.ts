@@ -1,4 +1,3 @@
-import Discord from "discord.js";
 import { client } from "..";
 import { prefix } from "../config.json";
 

@@ -1,4 +1,4 @@
-import Discord from "discord.js";
+import { MessageEmbed } from "discord.js";
 import Command, { Category } from "../../Command";
 import parseUsers from "../../utils/parseUsers";
 
@@ -14,7 +14,7 @@ export default {
     const user = parseUsers(args, message)[0] || message.author;
 
     return message.channel.send(
-      new Discord.MessageEmbed()
+      new MessageEmbed()
         .setTitle(user.username)
         .setThumbnail(user.displayAvatarURL())
         .setDescription(`Status: \`${user.presence.status}\``)

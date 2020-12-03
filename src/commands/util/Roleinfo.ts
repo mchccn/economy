@@ -1,4 +1,4 @@
-import Discord from "discord.js";
+import { MessageEmbed } from "discord.js";
 import Command, { Category } from "../../Command";
 import parseCase from "../../utils/parseCase";
 import parseRoles from "../../utils/parseRoles";
@@ -15,10 +15,13 @@ export default {
   async execute(message, args, client) {
     const role = parseRoles(args, message)[0];
 
-    if (!role) return message.channel.send("Role not found!");
+    if (!role) {
+      message.channel.send("Role not found!");
+      return "invalid";
+    }
 
     return message.channel.send(
-      new Discord.MessageEmbed()
+      new MessageEmbed()
         .setTitle(role.name)
         .addField("Members", role.members.size)
         .addField("Mentionable", role.mentionable, true)

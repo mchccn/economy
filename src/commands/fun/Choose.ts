@@ -9,14 +9,19 @@ export default {
   category: Category.FUN,
   cooldown: 1,
   async execute(message, args, client) {
-    if (!args.length) return message.channel.send("No items to pick!");
+    if (!args.length) {
+      message.channel.send("No items to pick!");
+      return "invalid";
+    }
 
     const string = args.join(" ");
 
     const items = string.split(",").map((i) => i.trim());
 
-    if (items.length === 1)
-      return message.channel.send("There's only one item to pick!");
+    if (items.length === 1) {
+      message.channel.send("There's only one item to pick!");
+      return "invalid";
+    }
 
     return message.channel.send(
       `I choose \`${items[Math.floor(Math.random() * items.length)]}\`!`
