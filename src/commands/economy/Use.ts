@@ -21,6 +21,11 @@ export default {
       where: { name: { [Op.like]: args[0] } },
     });
 
+    if (!item) {
+      message.channel.send("That item doesn't exist!");
+      return "invalid";
+    }
+
     const userItem = (await user.getItems()).find(
       (i: any) => i.dataValues.item.name === item.dataValues.name
     );
@@ -41,6 +46,17 @@ export default {
           return message.channel.send(
             `You found ${magnetCoins} coins with your trusty magnet!`
           );
+        case "Sunglasses":
+          const sunglassesPerk = Math.round(Math.random() * 2 + 2);
+          user.increment("multiplier", {
+            by: sunglassesPerk,
+          });
+          user.save();
+          userItem.decrement("amount");
+          userItem.save();
+          return message.channel.send(
+            `You wear your cool shades and gain ${sunglassesPerk} as a perk! ~~Unfortunately the expensive sunglasses were cheaply made and broke as a result~~`
+          );
       }
     } else {
       message.channel.send(
@@ -48,7 +64,7 @@ export default {
           ? "\nTo use this item you must eat it!"
           : ""
       );
-      return;
+      return "invalid";
     }
   },
 } as Command;
