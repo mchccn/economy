@@ -1,6 +1,6 @@
 import { Message } from "discord.js";
-import { Users } from "../../..";
 import Command, { Category } from "../../../Command";
+import { Users } from "../../../dbObjects";
 
 const areas = [
   {
@@ -183,7 +183,7 @@ export default {
   name: "search",
   aliases: ["scout"],
   args: false,
-  usage: "",
+  usage: " | <area>",
   category: Category.ECONOMY,
   cooldown: 30,
   description: "Search for coins!",

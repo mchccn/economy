@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
-import { CurrencyShop, Users } from "../../..";
 import Command, { Category } from "../../../Command";
+import { CurrencyShop, Users } from "../../../dbObjects";
 
 const replies = [
   "no u",

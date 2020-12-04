@@ -1,13 +1,13 @@
-import { Blacklisted } from "../../";
 import Command, { Category } from "../../Command";
+import { Blacklisted } from "../../dbObjects";
 
 export default {
   name: "blacklist",
   aliases: [""],
   args: true,
-  usage: "<id, 'all'>",
+  usage: "<id|'all'>",
   category: Category.DEV,
-  description: "Blacklist a user.",
+  description: "Blacklist a user",
   cooldown: 0,
   async execute(message, args, client) {
     if (args[0] === "all") {

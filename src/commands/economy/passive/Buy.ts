@@ -1,15 +1,15 @@
 import { MessageEmbed } from "discord.js";
 import { Op } from "sequelize";
-import { CurrencyShop, Users } from "../../..";
 import Command, { Category } from "../../../Command";
+import { CurrencyShop, Users } from "../../../dbObjects";
 
 export default {
   name: "buy",
   aliases: ["purchase"],
   args: true,
-  usage: "<user> [amount]",
+  usage: "<item> [amount]",
   category: Category.ECONOMY,
-  description: "Buy an item, or items.",
+  description: "Buy an item, or items",
   cooldown: 5,
   async execute(message, args, client) {
     const item = await CurrencyShop.findOne({

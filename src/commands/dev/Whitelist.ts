@@ -1,5 +1,5 @@
-import { Blacklisted } from "../../";
 import Command, { Category } from "../../Command";
+import { Blacklisted } from "../../dbObjects";
 
 export default {
   name: "whitelist",
@@ -7,7 +7,7 @@ export default {
   args: true,
   usage: "<id>",
   category: Category.DEV,
-  description: "Whitelist a user.",
+  description: "Whitelist a user",
   cooldown: 0,
   async execute(message, args, client) {
     if (!/^\d{18}$/.test(args[0]))

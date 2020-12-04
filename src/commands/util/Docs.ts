@@ -10,7 +10,7 @@ export default {
   usage: "<query>",
   category: Category.UTIL,
   description: "Search the discord.js docs",
-  cooldown: 1,
+  cooldown: 2.5,
   async execute(message, args, client) {
     const platform = args[0];
     const query = args.slice(1);

@@ -1,5 +1,5 @@
-import { Users } from "../../..";
 import Command, { Category } from "../../../Command";
+import { Users } from "../../../dbObjects";
 import parseUsers from "../../../utils/parseUsers";
 
 const thresholds = [

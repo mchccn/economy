@@ -1,5 +1,5 @@
-import { Users } from "../../..";
 import Command, { Category } from "../../../Command";
+import { Users } from "../../../dbObjects";
 
 export default {
   name: "dep",
@@ -8,7 +8,7 @@ export default {
   usage: "<amount>",
   category: Category.ECONOMY,
   cooldown: 5,
-  description: "Deposit some money into your bank.",
+  description: "Deposit some money into your bank",
   async execute(message, args, client) {
     const user = await Users.findOne({
       where: {

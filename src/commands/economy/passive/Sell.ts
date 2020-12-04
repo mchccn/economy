@@ -7,9 +7,9 @@ export default {
   name: "sell",
   aliases: ["pawn"],
   args: false,
-  usage: "<item> <amount>",
+  usage: "<item> [amount]",
   category: Category.ECONOMY,
-  description: "View your balance, or someone else's",
+  description: "Refund some items you don't want",
   cooldown: 1,
   async execute(message, args, client) {
     const item = await CurrencyShop.findOne({

@@ -4,7 +4,7 @@ export default {
   name: "choose",
   aliases: ["pick"],
   args: true,
-  usage: "<item>, <item>, [item, [item,]...]",
+  usage: "<item> <item> [item, [item], ...]",
   description: "Let the bot decide what to choose!",
   category: Category.FUN,
   cooldown: 1,

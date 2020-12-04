@@ -9,7 +9,7 @@ export default {
   aliases: ["ri"],
   args: true,
   usage: "<role>",
-  description: "Displays general role info.",
+  description: "Displays general role info",
   category: Category.UTIL,
   cooldown: 5,
   async execute(message, args, client) {

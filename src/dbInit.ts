@@ -59,7 +59,7 @@ try {
         emoji: "🕶",
         name: "Sunglasses",
         cost: 500,
-        description: "Look nice and gain perks.",
+        description: "Look nice and gain perks",
         worth: "LARGE",
         type: "USE_ONCE",
         edible: false,

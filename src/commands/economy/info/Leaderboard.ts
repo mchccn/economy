@@ -1,13 +1,13 @@
 import { MessageEmbed } from "discord.js";
-import { Users } from "../../..";
 import Command, { Category } from "../../../Command";
+import { Users } from "../../../dbObjects";
 import parseUsers from "../../../utils/parseUsers";
 
 export default {
   name: "leaderboard",
   aliases: ["top"],
   args: false,
-  usage: "[user]",
+  usage: "['me'|user]",
   category: Category.ECONOMY,
   description: "See who's the best",
   cooldown: 0,

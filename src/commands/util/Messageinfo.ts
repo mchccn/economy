@@ -6,7 +6,7 @@ export default {
   aliases: ["mi"],
   args: true,
   usage: "<id>",
-  description: "Displays general message info.",
+  description: "Displays general message info",
   category: Category.UTIL,
   cooldown: 5,
   async execute(message, args, client) {

@@ -13,22 +13,28 @@ export default {
   async execute(message, args, client) {
     const items = await CurrencyShop.findAll();
 
+    const pages = items
+      .map((_: any, i: any) =>
+        i % 5 ? undefined : items.slice(i, Math.floor(i / 5) * 5 + 5)
+      )
+      .filter(($: any) => !!$);
+
+    const pageNumber = parseInt(args[0]) || 0;
+
+    const page =
+      pages[pageNumber > pages.length - 1 ? pages.length - 1 : pageNumber];
+
     const embed = new MessageEmbed()
       .setColor("RANDOM")
       .setFooter(client.user?.tag)
       .setTimestamp(message.createdTimestamp)
       .setTitle("Shop");
 
-    let shopDesc = "";
-
-    for (const item of items) {
+    for (const item of page)
       embed.addField(
         `${item.emoji} ${item.name} - ${item.cost}`,
         item.description
       );
-    }
-
-    embed.setDescription(shopDesc);
 
     return message.channel.send(embed);
   },

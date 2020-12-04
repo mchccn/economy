@@ -7,7 +7,7 @@ export default {
   aliases: ["si"],
   args: false,
   usage: "",
-  description: "Displays general server info.",
+  description: "Displays general server info",
   category: Category.UTIL,
   cooldown: 5,
   async execute(message, args, client) {

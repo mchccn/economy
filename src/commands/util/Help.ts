@@ -8,7 +8,7 @@ export default {
   args: false,
   usage: "[command]",
   description:
-    "Displays all commands and info on a specific command if specified.",
+    "Displays all commands and info on a specific command if specified",
   category: Category.UTIL,
   cooldown: 0,
   async execute(message, args, client) {
@@ -62,7 +62,7 @@ export default {
       new MessageEmbed()
         .setTitle(`Info for ${command.name}`)
         .setDescription(
-          `Arguments wrapped in \`<>\` are required and arguments wrapped in \`[]\` are optional.\nArguments separated by \`|\` indicates separate prompts.`
+          `If you don't know how to read the argument syntax use \`${prefix}syntax\`.`
         )
         .addField(
           "Aliases",

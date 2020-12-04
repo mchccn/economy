@@ -1,6 +1,6 @@
 import { Op } from "sequelize";
-import { CurrencyShop, Users } from "../../..";
 import Command, { Category } from "../../../Command";
+import { CurrencyShop, Users } from "../../../dbObjects";
 
 export default {
   name: "use",
@@ -8,7 +8,7 @@ export default {
   args: true,
   usage: "<item>",
   category: Category.ECONOMY,
-  description: "Use an item.",
+  description: "Use an item",
   cooldown: 15,
   async execute(message, args, client) {
     const user = await Users.findOne({
