@@ -103,7 +103,7 @@ export default {
       );
 
       if (!targetItem) {
-        target.addItem(item);
+        for (let i = 0; i < transferAmount; i++) target.addItem(item);
       } else {
         targetItem.increment("amount", {
           by: transferAmount,

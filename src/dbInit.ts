@@ -55,6 +55,15 @@ try {
         type: "USE_MANY",
         edible: false,
       }),
+      CurrencyShop.upsert({
+        emoji: "🕶",
+        name: "Sunglasses",
+        cost: 500,
+        description: "Look nice and gain perks.",
+        worth: "LARGE",
+        type: "USE_ONCE",
+        edible: false,
+      }),
     ];
     await Promise.all(shop);
     console.log("Database synced");
