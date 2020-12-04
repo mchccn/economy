@@ -8,8 +8,8 @@ export default {
   args: true,
   usage: "<item>",
   category: Category.ECONOMY,
-  description: "View your balance, or someone else's",
-  cooldown: 1,
+  description: "Eat some food for bonuses",
+  cooldown: 10,
   async execute(message, args, client) {
     const item = await CurrencyShop.findOne({
       where: { name: { [Op.like]: args[0] } },
@@ -22,6 +22,9 @@ export default {
     const userItem = (await user.getItems()).find(
       (i: any) => i.dataValues.item.name === item.name
     );
+
+    if (!userItem || userItem.dataValues.amount <= 0)
+      return message.channel.send("You don't have that item!");
 
     userItem.decrement("amount");
     userItem.save();

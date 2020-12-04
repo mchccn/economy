@@ -44,9 +44,10 @@ export default {
     if (["all", "max"].includes(args[1])) amount = userItem.dataValues.amount;
 
     const refund = Math.floor(userItem.item.dataValues.cost / 2) * amount;
+    user.income(refund);
 
     user.increment("balance", {
-      by: Math.round(refund * user.multiplier),
+      by: refund,
     });
     user.save();
 

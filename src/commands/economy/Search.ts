@@ -223,12 +223,7 @@ export default {
     );
 
     if (Math.random() < areaChosen.chanceOfDying) {
-      user.balance = 0;
-      user.getItems().forEach((item: any) => {
-        item.dataValues.amount = 0;
-        item.save();
-      });
-      user.save();
+      user.kill();
       return choice.channel.send(areaChosen.deathReply);
     }
 
@@ -237,10 +232,7 @@ export default {
         areaChosen.money.min
     );
 
-    user.increment("balance", {
-      by: money,
-    });
-    user.save();
+    user.income(money);
 
     return choice.channel.send(areaChosen.reply.replace("$money$", money));
   },

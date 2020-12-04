@@ -44,8 +44,7 @@ export default {
 
     if (item) user.addItem(item);
 
-    user.balance += Math.round(coins * user.multiplier);
-    user.save();
+    user.income(coins);
 
     const { first, last } = (
       await (await fetch("https://randomuser.me/api")).json()

@@ -14,6 +14,20 @@ const Blacklisted = require("./models/Blacklisted")(sequelize, DataTypes);
 
 UserItems.belongsTo(CurrencyShop, { foreignKey: "item_id", as: "item" });
 
+Users.prototype.income = async function (amount: number) {
+  this.balance += Math.round(amount * this.multiplier);
+  return this.save();
+};
+
+Users.prototype.kill = async function () {
+  this.balance = 0;
+  this.getItems().forEach((item: any) => {
+    item.dataValues.amount = 0;
+    item.save();
+  });
+  this.save();
+};
+
 Users.prototype.addItem = async function (item: any) {
   const userItem = await UserItems.findOne({
     where: { user_id: this.user_id, item_id: item.id },

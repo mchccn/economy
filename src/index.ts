@@ -34,6 +34,21 @@ client.on("message", async (message) => {
   )
     return;
 
+  //! ONLY FOR DEVELOPMENT
+  {
+    if (
+      [
+        "777916243150897199",
+        "779419513275416619",
+        "784218206725210132",
+      ].includes(message.channel.id)
+    )
+      return message.author.send(
+        `I have been disabled by the devs in the channel!`
+      );
+  }
+  //!
+
   if (
     await Blacklisted.findOne({
       where: {
@@ -56,13 +71,13 @@ client.on("message", async (message) => {
     );
   }
 
-  if (
-    !(await Users.findOne({
-      where: {
-        user_id: message.author.id,
-      },
-    }))
-  ) {
+  const user = await Users.findOne({
+    where: {
+      user_id: message.author.id,
+    },
+  });
+
+  if (!user) {
     await Users.create({ user_id: message.author.id, balance: 0 });
     message.channel.send("Registering new user...");
   }
@@ -136,6 +151,9 @@ client.on("message", async (message) => {
 
   try {
     if (command.execute(message, args, client) !== "invalid") {
+      user.increment("max_bank", {
+        by: Math.round(Math.random() * 2),
+      });
       timestamps!.set(message.author.id, now);
       setTimeout(() => timestamps!.delete(message.author.id), cooldownAmount);
     }

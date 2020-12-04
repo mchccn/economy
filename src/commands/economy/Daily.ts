@@ -16,11 +16,9 @@ export default {
         user_id: message.author.id,
       },
     });
-    user.increment("balance", {
-      by: Math.round(amount * user.multiplier),
-    });
+    user.income(amount);
     user.increment("max_bank", {
-      by: Math.round(50 * user.multiplier),
+      by: Math.round(Math.random() * 20 + 40 * user.multiplier),
     });
     user.save();
     message.channel.send(`You got ${amount} coins!`);

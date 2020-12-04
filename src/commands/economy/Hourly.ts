@@ -16,10 +16,7 @@ export default {
         user_id: message.author.id,
       },
     });
-    user.increment("balance", {
-      by: Math.round(amount * user.multiplier),
-    });
-    user.save();
+    user.income(amount);
     message.channel.send(`You got ${amount} coins!`);
   },
 } as Command;
