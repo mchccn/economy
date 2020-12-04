@@ -1,6 +1,6 @@
 import { Message } from "discord.js";
-import { Users } from "../..";
-import Command, { Category } from "../../Command";
+import { Users } from "../../..";
+import Command, { Category } from "../../../Command";
 
 const areas = [
   {

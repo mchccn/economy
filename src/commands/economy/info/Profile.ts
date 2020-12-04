@@ -1,7 +1,7 @@
 import { MessageEmbed } from "discord.js";
-import { Users } from "../..";
-import Command, { Category } from "../../Command";
-import parseUsers from "../../utils/parseUsers";
+import { Users } from "../../..";
+import Command, { Category } from "../../../Command";
+import parseUsers from "../../../utils/parseUsers";
 
 export default {
   name: "profile",

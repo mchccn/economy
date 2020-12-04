@@ -1,6 +1,6 @@
 import { MessageEmbed } from "discord.js";
-import Command, { Category } from "../../Command";
-import { CurrencyShop } from "../../index";
+import Command, { Category } from "../../../Command";
+import { CurrencyShop } from "../../../index";
 
 export default {
   name: "shop",

@@ -40,7 +40,7 @@ try {
       CurrencyShop.upsert({
         emoji: "🍰",
         name: "Cake",
-        cost: 25,
+        cost: 30,
         description: "Eat some cake",
         worth: "SMALL",
         type: "USE_ONCE",

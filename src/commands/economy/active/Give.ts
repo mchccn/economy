@@ -1,7 +1,7 @@
 import { Op } from "sequelize";
-import { CurrencyShop, Users } from "../../";
-import Command, { Category } from "../../Command";
-import parseUsers from "../../utils/parseUsers";
+import { CurrencyShop, Users } from "../../..";
+import Command, { Category } from "../../../Command";
+import parseUsers from "../../../utils/parseUsers";
 
 export default {
   name: "give",

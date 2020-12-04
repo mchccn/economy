@@ -1,7 +1,7 @@
 import { MessageEmbed } from "discord.js";
 import { Op } from "sequelize";
-import { CurrencyShop, Users } from "../..";
-import Command, { Category } from "../../Command";
+import { CurrencyShop, Users } from "../../..";
+import Command, { Category } from "../../../Command";
 
 export default {
   name: "buy",
