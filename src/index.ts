@@ -41,6 +41,9 @@ client.on("message", async (message) => {
         "777916243150897199",
         "779419513275416619",
         "784218206725210132",
+        "774717957175508996",
+        "782183142962364476",
+        "784466036535722005",
       ].includes(message.channel.id)
     )
       return message.author.send(
@@ -71,16 +74,14 @@ client.on("message", async (message) => {
     );
   }
 
-  const user = await Users.findOne({
+  let user = await Users.findOne({
     where: {
       user_id: message.author.id,
     },
   });
 
-  if (!user) {
-    await Users.create({ user_id: message.author.id, balance: 0 });
-    message.channel.send("Registering new user...");
-  }
+  if (!user)
+    user = await Users.create({ user_id: message.author.id, balance: 0 });
 
   const args = message.content.slice(prefix.length).trim().split(/ +/);
   const commandName = args.shift()!.toLowerCase();
@@ -102,8 +103,6 @@ client.on("message", async (message) => {
     );
   }
 
-  let unregisteredUsers = false;
-
   for (const user of parseUsers(args, message)) {
     if (
       !(await Users.findOne({
@@ -115,12 +114,8 @@ client.on("message", async (message) => {
       await Users.create({
         user_id: user?.id,
       });
-
-      unregisteredUsers = true;
     }
   }
-
-  if (unregisteredUsers) message.channel.send("Registering new users...");
 
   if (!cooldowns.has(command.name)) {
     cooldowns.set(command.name, new Discord.Collection());

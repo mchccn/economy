@@ -22,7 +22,7 @@ export default {
         )
         .addField(
           "Optional arguments",
-          "`[arg] indicates that the argument is optional. You may exclude it if you wish, but optional arguments provide more info to the bot.`"
+          "`[arg]` indicates that the argument is optional. You may exclude it if you wish, but optional arguments provide more info to the bot.`"
         )
         .addField(
           "Separate prompts",

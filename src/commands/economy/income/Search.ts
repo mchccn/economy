@@ -204,7 +204,7 @@ export default {
 
     const choice = (
       await msg.channel.awaitMessages(filter, {
-        maxProcessed: 1,
+        max: 1,
         time: 15000,
         errors: ["time"],
       })

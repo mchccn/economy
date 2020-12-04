@@ -84,6 +84,9 @@ export default {
     player.splice(0, -1, ...cards.splice(0, 2));
     dealer.splice(0, -1, ...cards.splice(0, 2));
 
+    const filter = (response: Message) =>
+      response.author.id === message.author.id;
+
     async function play(choice: string): Promise<any> {
       if (choice === "hit") {
         const card = cards.splice(0, 1)[0];
@@ -261,9 +264,6 @@ export default {
           .addField("Dealer's card", `${dealer[0].name}\nTotal: \`?\``, true)
           .setFooter("K, Q, J = 10 | A = 1 or 11")
       );
-
-      const filter = (response: Message) =>
-        response.author.id === message.author.id;
 
       const playerChoice = (
         await message.channel.awaitMessages(filter, {
