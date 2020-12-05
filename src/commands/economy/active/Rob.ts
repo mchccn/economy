@@ -115,7 +115,7 @@ export default {
     user.income(amount);
 
     return message.channel.send(
-      `You robbed ${target.username} and stole **${threshold.message}** from them!`
+      `You robbed ${target.username} and stole **${threshold.message}** from them! (${amount} coins)`
     );
   },
 } as Command;

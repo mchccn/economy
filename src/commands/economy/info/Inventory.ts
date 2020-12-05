@@ -4,8 +4,8 @@ import { Users } from "../../../dbObjects";
 import parseUsers from "../../../utils/parseUsers";
 
 export default {
-  name: "inv",
-  aliases: ["inventory"],
+  name: "inventory",
+  aliases: ["inv"],
   args: false,
   usage: "[user]",
   category: Category.ECONOMY,
