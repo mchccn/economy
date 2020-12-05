@@ -4,7 +4,7 @@
 
 #### this bot uses [Sequelize](https://sequelize.org/) and [discord.js](https://discord.js.org/#/) to interact with the Discord API.
 
-[economy's avatar](demonetized.jpeg)
+![economy's avatar](demonetized.jpeg)
 
 ### Features
 
