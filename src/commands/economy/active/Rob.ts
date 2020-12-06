@@ -66,6 +66,9 @@ export default {
       },
     });
 
+    if (user.passive)
+      return message.channel.send("Hey, you're passive! Turn that off first!");
+
     const victim = await Users.findOne({
       where: {
         user_id: target.id,

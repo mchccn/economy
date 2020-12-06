@@ -7,8 +7,8 @@ export default {
   args: true,
   usage: "<id>",
   category: Category.DEV,
-  description: "Whitelist a user",
   cooldown: 0,
+  description: "Whitelist a user",
   async execute(message, args, client) {
     if (!/^\d{18}$/.test(args[0]))
       return message.channel.send("Enter a valid id.");

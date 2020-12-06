@@ -6,8 +6,8 @@ export default {
   args: true,
   usage: "<code>",
   category: Category.DEV,
-  description: "Run some JS",
   cooldown: 0,
+  description: "Run some JS",
   async execute(message, args, client) {
     const code = args.join(" ");
 

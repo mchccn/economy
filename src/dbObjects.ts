@@ -11,6 +11,8 @@ const Users = require("./models/Users")(sequelize, DataTypes);
 const CurrencyShop = require("./models/CurrencyShop")(sequelize, DataTypes);
 const UserItems = require("./models/UserItems")(sequelize, DataTypes);
 const Blacklisted = require("./models/Blacklisted")(sequelize, DataTypes);
+const BlackMarket = require("./models/BlackMarket")(sequelize, DataTypes);
+const Occupations = require("./models/Occupations")(sequelize, DataTypes);
 
 UserItems.belongsTo(CurrencyShop, { foreignKey: "item_id", as: "item" });
 
@@ -21,9 +23,8 @@ Users.prototype.income = async function (amount: number) {
 
 Users.prototype.kill = async function () {
   this.balance = 0;
-  this.getItems().forEach((item: any) => {
-    item.dataValues.amount = 0;
-    item.save();
+  (await this.getItems()).forEach((item: any) => {
+    item.destroy();
   });
   this.save();
 };
@@ -61,4 +62,37 @@ Users.prototype.getItems = function () {
   });
 };
 
-export { Users, CurrencyShop, UserItems, Blacklisted };
+const levels = (function () {
+  class Level {
+    level: number;
+    exp: number;
+    constructor(level: number, exp: number) {
+      this.level = level;
+      this.exp = exp;
+    }
+  }
+
+  const levels: Level[] = [];
+
+  for (let i = 0; i < 101; i++)
+    levels.push(
+      new Level(
+        i,
+        Math.round(Math.pow(i, 2) / 2) +
+          levels.reduce((acc, cur) => acc + cur.exp, 0) +
+          100
+      )
+    );
+
+  return levels;
+})();
+
+export {
+  Users,
+  CurrencyShop,
+  UserItems,
+  Blacklisted,
+  BlackMarket,
+  Occupations,
+  levels,
+};

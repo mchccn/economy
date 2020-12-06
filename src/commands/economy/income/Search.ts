@@ -10,7 +10,7 @@ const areas = [
       max: 10,
     },
     chanceOfDying: 0.01,
-    reply: `You search through a stray dog's fur and somehow find $money$ coins hidden away.`,
+    reply: `You search through a stray dog's fur and somehow find $ coins hidden away.`,
     deathReply:
       "The dog bites you, but at least it didn't have rabies. Oh wait it does.",
   },
@@ -21,7 +21,7 @@ const areas = [
       max: 18,
     },
     chanceOfDying: 0.04,
-    reply: `You snatch a wallet with $money$ coins away from a person. Did you just steal?`,
+    reply: `You snatch a wallet with $ coins away from a person. Did you just steal?`,
     deathReply: "The person was a cop, and he shot you for self-defense.",
   },
   {
@@ -31,7 +31,7 @@ const areas = [
       max: 12,
     },
     chanceOfDying: 0.03,
-    reply: `Crawling in the bushes results in rashes... and $money$ coins?`,
+    reply: `Crawling in the bushes results in rashes... and $ coins?`,
     deathReply:
       "You got rashes from a poison bush and died from scratching yourself too much.",
   },
@@ -42,7 +42,7 @@ const areas = [
       max: 20,
     },
     chanceOfDying: 0.06,
-    reply: `In the hole in the ground there lived $money$ coins. (*The Hobbit*  reference)`,
+    reply: `In the hole in the ground there lived $ coins. (*The Hobbit*  reference)`,
     deathReply: "The hole collapses and buries you alive.",
   },
   {
@@ -52,7 +52,7 @@ const areas = [
       max: 16,
     },
     chanceOfDying: 0.05,
-    reply: `Sifting through manure is not pretty, but you somehow found $money$ coins.`,
+    reply: `Sifting through manure is not pretty, but you somehow found $ coins.`,
     deathReply: "While searching the farm, the walls collapse and you die.",
   },
   {
@@ -62,7 +62,7 @@ const areas = [
       max: 9,
     },
     chanceOfDying: 0.02,
-    reply: `You find $money$ coins in your couch.... How long has that been sitting there?`,
+    reply: `You find $ coins in your couch.... How long has that been sitting there?`,
     deathReply: "You get stuck in the couch and suffocate...?",
   },
   {
@@ -72,7 +72,7 @@ const areas = [
       max: 12,
     },
     chanceOfDying: 0.05,
-    reply: `You crawl under your bed and find $money$ coins lying around.`,
+    reply: `You crawl under your bed and find $ coins lying around.`,
     deathReply: "The bed sadly falls on you while you snoop under it.",
   },
   {
@@ -82,7 +82,7 @@ const areas = [
       max: 22,
     },
     chanceOfDying: 0.04,
-    reply: `The drawers had $money$ coins in it. What are you doing?`,
+    reply: `The drawers had $ coins in it. What are you doing?`,
     deathReply:
       "You pull a drawer so hard that you knock yourself out of the world.",
   },
@@ -93,7 +93,7 @@ const areas = [
       max: 18,
     },
     chanceOfDying: 0.02,
-    reply: `You find a rotten sandwich and $money$ coins in your fridge`,
+    reply: `You find a rotten sandwich and $ coins in your fridge`,
     deathReply: "The fridge door snaps shut and you get stuck inside.",
   },
   {
@@ -103,7 +103,7 @@ const areas = [
       max: 30,
     },
     chanceOfDying: 0.1,
-    reply: `You swing open the creak door and find $money$ coins at your feet.`,
+    reply: `You swing open the creak door and find $ coins at your feet.`,
     deathReply: "The shack comes to life and eats you whole.",
   },
   {
@@ -113,7 +113,7 @@ const areas = [
       max: 30,
     },
     chanceOfDying: 0.065,
-    reply: `You join the clubhouse and gain $money$ coins from the point system(?).`,
+    reply: `You join the clubhouse and gain $ coins from the point system(?).`,
     deathReply: "You went to the nightclub instead.",
   },
   {
@@ -123,7 +123,7 @@ const areas = [
       max: 60,
     },
     chanceOfDying: 0.25,
-    reply: `You rob your local bank and get $money$ coins as the payout. Run!`,
+    reply: `You rob your local bank and get $ coins as the payout. Run!`,
     deathReply: "You got shot while trying to run away.",
   },
   {
@@ -133,7 +133,7 @@ const areas = [
       max: 12,
     },
     chanceOfDying: 0.01,
-    reply: `$money$ coins were waiting for you. Someone's nice at least.`,
+    reply: `$ coins were waiting for you. Someone's nice at least.`,
     deathReply: "Over 100 bills flow out and drown you in debt.",
   },
   {
@@ -143,7 +143,7 @@ const areas = [
       max: 100,
     },
     chanceOfDying: 0.01,
-    reply: `You find $money$ in your piggybank from when you were a kid...`,
+    reply: `You find $ in your piggybank from when you were a kid...`,
     deathReply: "The piggybank shatters and the porcelain cuts you.",
   },
   {
@@ -153,7 +153,7 @@ const areas = [
       max: 8,
     },
     chanceOfDying: 0.02,
-    reply: `The cow poops out $money$ coins. Ok.`,
+    reply: `The cow poops out $ coins. Ok.`,
     deathReply: "The cow decides to sit on you.",
   },
   {
@@ -163,7 +163,7 @@ const areas = [
       max: 25,
     },
     chanceOfDying: 0.2,
-    reply: `You find $money$ radioactive coins near the powerplant.`,
+    reply: `You find $ radioactive coins near the powerplant.`,
     deathReply:
       "The powerplant has a meltdown and it's Chernoybl all over again.",
   },
@@ -174,7 +174,7 @@ const areas = [
       max: 8,
     },
     chanceOfDying: 0.01,
-    reply: `You find $money$ coins at your local elementary school.`,
+    reply: `You find $ coins at your local elementary school.`,
     deathReply: "The doors slam shut on you while you were trying to enter.",
   },
 ];
@@ -234,7 +234,7 @@ export default {
 
     user.income(money);
 
-    return choice.channel.send(areaChosen.reply.replace("$money$", money));
+    return choice.channel.send(areaChosen.reply.replace("$", money));
   },
 } as Command;
 

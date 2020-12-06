@@ -2,7 +2,7 @@ import Discord from "discord.js";
 import ms from "ms";
 import Command, { Category } from "./Command";
 import { devs, prefix, token } from "./config.json";
-import { Blacklisted, CurrencyShop, Users } from "./dbObjects";
+import { Blacklisted, CurrencyShop, levels, Users } from "./dbObjects";
 import init from "./load";
 import parseUsers from "./utils/parseUsers";
 
@@ -44,6 +44,7 @@ client.on("message", async (message) => {
         "774717957175508996",
         "782183142962364476",
         "784466036535722005",
+        "784352118235594783",
       ].includes(message.channel.id)
     )
       return message.author.send(
@@ -147,8 +148,15 @@ client.on("message", async (message) => {
   try {
     if (command.execute(message, args, client) !== "invalid") {
       user.increment("max_bank", {
-        by: Math.round(Math.random() * 2),
+        by: Math.round(Math.random()),
       });
+      user.increment("exp", {
+        by: command.cooldown > 60 ? 60 : command.cooldown,
+      });
+      if (user.exp <= levels[levels.length - 1].exp)
+        user.level = levels.find((l) => user.exp < l.exp)?.level;
+      else user.level = levels[levels.length - 1].level;
+      user.save();
       timestamps!.set(message.author.id, now);
       setTimeout(() => timestamps!.delete(message.author.id), cooldownAmount);
     }

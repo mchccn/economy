@@ -26,5 +26,17 @@ module.exports = (sequelize: Sequelize, dataTypes: typeof DataTypes) => {
       type: dataTypes.DECIMAL,
       defaultValue: 1,
     },
+    level: {
+      type: dataTypes.INTEGER,
+      defaultValue: 0,
+    },
+    exp: {
+      type: dataTypes.INTEGER,
+      defaultValue: 0,
+    },
+    occupation: {
+      type: dataTypes.STRING,
+      defaultValue: "unemployed",
+    },
   });
 };

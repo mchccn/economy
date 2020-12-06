@@ -57,6 +57,57 @@ export default {
           return message.channel.send(
             `You wear your cool shades and gain ${sunglassesPerk} as a perk! ~~Unfortunately the expensive sunglasses were cheaply made and broke as a result~~`
           );
+        case "Computer":
+          if (Math.random() > 0.95) {
+            userItem.decrement("amount");
+            userItem.save();
+            return message.channel.send(
+              "Your dank meme was taken down for being low effort and you raged, breaking your computer!"
+            );
+          }
+
+          const memes = [
+            {
+              min: 10,
+              max: 15,
+              reply: "with a few upvotes and got $ coins",
+            },
+            {
+              min: 12,
+              max: 18,
+              reply: "with a some upvotes and gained $ coins",
+            },
+            {
+              min: 15,
+              max: 22,
+              reply: "with a lot of upvotes and you got $ coins from ads",
+            },
+            {
+              min: 18,
+              max: 25,
+              reply: "with a over 1000 upvotes and the ads earned $ coins",
+            },
+            {
+              min: 25,
+              max: 30,
+              reply: "with an incredible amount of upvotes and got $ coins",
+            },
+            {
+              min: 30,
+              max: 40,
+              reply: "with a over 10000 upvotes and earned $ coins from ads",
+            },
+          ];
+
+          const chosenMeme = memes[Math.floor(Math.random() * memes.length)];
+
+          const { min, max, reply } = chosenMeme;
+
+          const memeCoins = Math.round(Math.random() * (max - min) + min);
+
+          user.income(memeCoins);
+
+          return message.channel.send(`You posted a dank meme **${reply}**!`);
       }
     } else {
       message.channel.send(

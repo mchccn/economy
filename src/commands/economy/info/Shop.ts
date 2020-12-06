@@ -4,7 +4,7 @@ import { CurrencyShop } from "../../../index";
 
 export default {
   name: "shop",
-  aliases: ["market", "offers"],
+  aliases: [],
   args: false,
   usage: "[page]",
   category: Category.ECONOMY,
@@ -13,16 +13,30 @@ export default {
   async execute(message, args, client) {
     const items = await CurrencyShop.findAll();
 
+    const itemsPerPage = 5;
+
     const pages = items
       .map((_: any, i: any) =>
-        i % 5 ? undefined : items.slice(i, Math.floor(i / 5) * 5 + 5)
+        i % itemsPerPage
+          ? undefined
+          : items.slice(
+              i,
+              Math.floor(i / itemsPerPage) * itemsPerPage + itemsPerPage
+            )
       )
       .filter(($: any) => !!$);
 
-    const pageNumber = parseInt(args[0]) || 0;
+    const pageNumber = parseInt(args[0]) || 1;
+
+    if (pageNumber > pages.length || pageNumber === 0) {
+      message.channel.send(`Enter a valid page (1-${pages.length})!`);
+      return "invalid";
+    }
 
     const page =
-      pages[pageNumber > pages.length - 1 ? pages.length - 1 : pageNumber];
+      pages[
+        pageNumber - 1 > pages.length - 1 ? pages.length - 1 : pageNumber - 1
+      ];
 
     const embed = new MessageEmbed()
       .setColor("RANDOM")

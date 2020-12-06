@@ -16,7 +16,7 @@ export default {
 
     const profile = await Users.findOne({
       where: {
-        user_id: message.author.id,
+        user_id: user.id,
       },
     });
 
@@ -43,11 +43,16 @@ export default {
           true
         )
         .addField("Multiplier", `${profile.multiplier - 1}%`, true)
-        .addField("Passive", profile.passive ? "yes" : "no")
+        .addField("Passive", profile.passive ? "yes" : "no", true)
+        .addField(
+          "Level and exp",
+          `level ${profile.level} | ${profile.exp} exp earned`
+        )
+        .addField("Occupation", profile.occupation)
         .addField(
           "Last updated",
           profile.updatedAt.toDateString() === new Date().toDateString()
-            ? new Date().toTimeString().slice(8)
+            ? new Date().toTimeString().slice(0, 8)
             : profile.updatedAt.toDateString(),
           true
         )
