@@ -1,7 +1,6 @@
 import { Op } from "sequelize";
 import Command, { Category } from "../../Command";
 import { CurrencyShop, Users } from "../../dbObjects";
-import parseUsers from "../../utils/parseUsers";
 
 export default {
   name: "admin",
@@ -12,28 +11,22 @@ export default {
   description: "Execute admin commands",
   cooldown: 0,
   async execute(message, args, client) {
-    const target = parseUsers(args, message)[0] || message.author;
     const user = await Users.findOne({
       where: {
-        user_id: target.id,
+        user_id: message.author.id,
       },
     });
 
-    if (!/<@!?\d${18}>/.test(args[0]) && !/^\d{18}$/.test(args[0]))
-      return message.channel.send(
-        `\`\`\`economy: first argument is not of type user\`\`\``
-      );
-
-    switch (args[1]) {
+    switch (args[0]) {
       case "give":
-        const amount = parseInt(args[2]);
-        if (!args[3]) {
+        const amount = parseInt(args[1]);
+        if (!args[2]) {
           user.increment("balance", {
             by: amount,
           });
           user.save();
           return message.channel.send(
-            `\`\`\`economy: give: given ${amount} coins to ${target.username}\`\`\``
+            `\`\`\`economy: give: given ${amount} coins to ${message.author.username}\`\`\``
           );
         } else {
           const item = await CurrencyShop.findOne({
@@ -42,7 +35,7 @@ export default {
 
           if (!item)
             return message.channel.send(
-              `\`\`\`economy: give: could not find item ${args[2]}\`\`\``
+              `\`\`\`economy: give: could not find item ${args[1]}\`\`\``
             );
 
           let userItem = (await user.getItems()).find(
@@ -50,9 +43,9 @@ export default {
           );
 
           if (!userItem) {
-            userItem = user.addItem(item);
+            userItem = await user.addItem(item);
             userItem.increment("amount", {
-              by: amount - 1,
+              by: amount - 2,
             });
           } else {
             userItem.increment("amount", {
@@ -63,11 +56,11 @@ export default {
           userItem.save();
 
           return message.channel.send(
-            `\`\`\`economy: give: given ${amount} items to ${target.username}\`\`\``
+            `\`\`\`economy: give: given ${amount} items to ${message.author.username}\`\`\``
           );
         }
       case "clear":
-        switch (args[2]) {
+        switch (args[1]) {
           case "bal":
             const bal = user.balance;
             user.balance = 0;
@@ -118,24 +111,25 @@ export default {
             );
           default:
             return message.channel.send(
-              `\`\`\`economy: clear: ${args[2]}: command not found\`\`\``
+              `\`\`\`economy: clear: ${args[1]}: command not found\`\`\``
             );
         }
-      case "warn":
-        target.createDM();
-        target.send(
-          `You have been warned by ${
-            message.author.username
-          } for \`${args.slice(2).join(" ")}\``
-        );
       case "delete":
         user.destroy();
         return message.channel.send(
-          `\`\`\`economy: delete: deleted user ${target.id}\`\`\``
+          `\`\`\`economy: delete: deleted user ${message.author.id}\`\`\``
+        );
+      case "exp":
+        user.exp += parseInt(args[1]) || 100;
+        user.save();
+        return message.channel.send(
+          `\`\`\`economy: exp: gave ${parseInt(args[1]) || 100} exp to user ${
+            message.author.id
+          }\`\`\``
         );
       default:
         return message.channel.send(
-          `\`\`\`economy: ${args[1]}: command not found\`\`\``
+          `\`\`\`economy: ${args[0]}: command not found\`\`\``
         );
     }
   },

@@ -146,16 +146,18 @@ client.on("message", async (message) => {
   }
 
   try {
-    if (command.execute(message, args, client) !== "invalid") {
+    if ((await command.execute(message, args, client)) !== "invalid") {
       user.increment("max_bank", {
         by: Math.round(Math.random()),
       });
       user.increment("exp", {
         by: command.cooldown > 60 ? 60 : command.cooldown,
       });
-      if (user.exp <= levels[levels.length - 1].exp)
+      if (user.exp <= levels[levels.length - 1].exp) {
         user.level = levels.find((l) => user.exp < l.exp)?.level;
-      else user.level = levels[levels.length - 1].level;
+      } else {
+        user.level = levels[levels.length - 1].level;
+      }
       user.save();
       timestamps!.set(message.author.id, now);
       setTimeout(() => timestamps!.delete(message.author.id), cooldownAmount);

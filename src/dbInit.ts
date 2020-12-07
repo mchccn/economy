@@ -133,7 +133,7 @@ try {
         level: 30,
       }),
       Occupations.upsert({
-        name: "CEO",
+        name: "ceo",
         min: 175,
         max: 200,
         scramble: "stocks marketshare manage decide",
@@ -141,7 +141,7 @@ try {
         level: 40,
       }),
       Occupations.upsert({
-        name: "President",
+        name: "president",
         min: 225,
         max: 250,
         scramble: "speech treaty executive president election",

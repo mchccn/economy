@@ -34,7 +34,15 @@ export default {
   cooldown: 10,
   description: "Play a game of blackjack",
   async execute(message, args, client) {
-    const bet = parseInt(args[0]);
+    let bet = parseInt(args[0]);
+
+    const user = await Users.findOne({
+      where: {
+        user_id: message.author.id,
+      },
+    });
+
+    if (["max", "all"].includes(args[0])) bet = user.balance;
 
     if (!bet) {
       message.channel.send("Please bet a valid number!");
@@ -46,11 +54,10 @@ export default {
       return "invalid";
     }
 
-    const user = await Users.findOne({
-      where: {
-        user_id: message.author.id,
-      },
-    });
+    if (bet > user.balance) {
+      message.channel.send("You don't have that much!");
+      return "invalid";
+    }
 
     const suits = ["spades", "hearts", "clubs", "diamonds"];
 
