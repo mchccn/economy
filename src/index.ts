@@ -34,25 +34,6 @@ client.on("message", async (message) => {
   )
     return;
 
-  //! ONLY FOR DEVELOPMENT
-  {
-    if (
-      [
-        "777916243150897199",
-        "779419513275416619",
-        "784218206725210132",
-        "774717957175508996",
-        "782183142962364476",
-        "784466036535722005",
-        "784352118235594783",
-      ].includes(message.channel.id)
-    )
-      return message.author.send(
-        `I have been disabled by the devs in the channel!`
-      );
-  }
-  //!
-
   if (
     await Blacklisted.findOne({
       where: {

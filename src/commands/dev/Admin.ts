@@ -45,7 +45,7 @@ export default {
           if (!userItem) {
             userItem = await user.addItem(item);
             userItem.increment("amount", {
-              by: amount - 2,
+              by: amount - 1,
             });
           } else {
             userItem.increment("amount", {

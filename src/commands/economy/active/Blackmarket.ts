@@ -10,8 +10,8 @@ export default {
   args: false,
   usage: "[<price|'buy' <id>> <offer> [description]]",
   category: Category.ECONOMY,
-  description: "Interact with the black market (WIP)",
-  cooldown: 0,
+  description: "Interact with the black market",
+  cooldown: 30,
   async execute(message, args, client) {
     if (args[0] === "cancel") {
       const user = await Users.findOne({
@@ -182,7 +182,7 @@ export default {
         }
       } else if (offerItem === "coin" && priceItem !== "coin") {
         const returnedItem = await CurrencyShop.findOne({
-          where: { name: { [Op.like]: offerItem } },
+          where: { name: { [Op.like]: priceItem } },
         });
 
         const dealerItem = (await dealer.getItems()).find(
@@ -259,8 +259,17 @@ export default {
 
       try {
         offer.destroy();
+        const formatOffer = `${offerAmount} ${offerItem}${
+          parseInt(offerAmount) !== 1 && !offerItem.endsWith("es") ? "s" : ""
+        }`;
+        const formatPrice = `${priceAmount} ${priceItem}${
+          parseInt(priceAmount) !== 1 && !priceItem.endsWith("es") ? "s" : ""
+        }`;
+        message.channel.send(
+          `You paid ${dealerUser.username} ${formatPrice} and got ${formatOffer} in return!`
+        );
         return dealerUser.send(
-          `${message.author.username} has bought your offer! (The transaction might've failed, though)`
+          `${message.author.username} has bought your offer!`
         );
       } catch (e) {
         message.channel.send("Transaction failed!");
@@ -311,9 +320,7 @@ export default {
           message.channel.send("You don't have that many coins!");
           return "invalid";
         }
-        user.decrement("balance", {
-          by: parseInt(offer[0]),
-        });
+        user.balance -= parseInt(offer[0]);
         user.save();
       } else if (item) {
         const offerItem = (await user.getItems()).find(
