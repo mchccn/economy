@@ -38,7 +38,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var discord_js_1 = require("discord.js");
 var Command_1 = require("../../Command");
-var config_json_1 = require("../../config.json");
 exports.default = {
     name: "help",
     aliases: ["commands"],
@@ -56,9 +55,8 @@ exports.default = {
                 if (!args.length) {
                     return [2 /*return*/, message.channel.send(new discord_js_1.MessageEmbed()
                             .setTitle("Help")
-                            .setURL("https://discord.gg/KuVNy9mrT3")
                             .setColor("RANDOM")
-                            .setDescription("Use `" + config_json_1.prefix + "help <command>` for info on a specific command.\nJoin the [support server](https://discord.gg/KuVNy9mrT3) for announcements and more information.")
+                            .setDescription("Use `" + process.env.PREFIX + "help <command>` for info on a specific command.")
                             .setFooter((_a = client.user) === null || _a === void 0 ? void 0 : _a.tag)
                             .setTimestamp(message.createdAt)
                             .addFields(Object.keys(Command_1.Category)
@@ -67,28 +65,24 @@ exports.default = {
                             return {
                                 name: cat.toLowerCase(),
                                 value: commands
-                                    .filter(function (cmd) {
-                                    return cmd.category === Object(Command_1.Category)[cat] &&
-                                        cmd.category !== Command_1.Category.DEV;
-                                })
+                                    .filter(function (cmd) { return cmd.category === Object(Command_1.Category)[cat] && cmd.category !== Command_1.Category.DEV; })
                                     .map(function (cmd) { return "`" + cmd.name + "`"; })
                                     .join(", ") || "None",
                             };
                         })))];
                 }
                 name = args[0].toLowerCase();
-                command = commands.get(name) ||
-                    commands.find(function (c) { return c.aliases && c.aliases.includes(name); });
+                command = commands.get(name) || commands.find(function (c) { return c.aliases && c.aliases.includes(name); });
                 if (!command) {
                     message.channel.send("Couldn't find the command `" + name + "`!");
                     return [2 /*return*/, "invalid"];
                 }
                 return [2 /*return*/, message.channel.send(new discord_js_1.MessageEmbed()
                         .setTitle("Info for " + command.name)
-                        .setDescription("If you don't know how to read the argument syntax use `" + config_json_1.prefix + "syntax`.")
+                        .setDescription("If you don't know how to read the argument syntax use `" + process.env.PREFIX + "syntax`.")
                         .addField("Aliases", command.aliases.map(function (a) { return "`" + a + "`"; }).join("\n") || "None")
                         .addField("Description", command.description)
-                        .addField("Usage", "`" + config_json_1.prefix + command.name + " " + command.usage + "`")
+                        .addField("Usage", "`" + process.env.PREFIX + command.name + " " + command.usage + "`")
                         .addField("Category", Object.keys(Command_1.Category)
                         .filter(function (key) { return !/[0-9]+/.test(key); })
                         .filter(function (cat) { return cat.toLowerCase() === command.category; })[0]

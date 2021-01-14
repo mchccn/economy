@@ -41,19 +41,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.client = exports.Users = exports.CurrencyShop = exports.Blacklisted = void 0;
 var discord_js_1 = __importDefault(require("discord.js"));
+var dotenv_1 = require("dotenv");
 var ms_1 = __importDefault(require("ms"));
 var Command_1 = require("./Command");
-var config_json_1 = require("./config.json");
 var dbObjects_1 = require("./dbObjects");
 Object.defineProperty(exports, "Blacklisted", { enumerable: true, get: function () { return dbObjects_1.Blacklisted; } });
 Object.defineProperty(exports, "CurrencyShop", { enumerable: true, get: function () { return dbObjects_1.CurrencyShop; } });
 Object.defineProperty(exports, "Users", { enumerable: true, get: function () { return dbObjects_1.Users; } });
 var load_1 = __importDefault(require("./load"));
 var parseUsers_1 = __importDefault(require("./utils/parseUsers"));
-var intents = new discord_js_1.default.Intents([
-    discord_js_1.default.Intents.NON_PRIVILEGED,
-    "GUILD_MEMBERS",
-]);
+dotenv_1.config();
+var intents = new discord_js_1.default.Intents([discord_js_1.default.Intents.NON_PRIVILEGED, "GUILD_MEMBERS"]);
+var prefix = process.env.PREFIX;
+var devs = [process.env.DEVS];
 exports.client = new discord_js_1.default.Client({
     ws: { intents: intents },
 });
@@ -66,9 +66,7 @@ exports.client.on("message", function (message) { return __awaiter(void 0, void 
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0:
-                if (message.author.bot ||
-                    !message.content.startsWith(config_json_1.prefix) ||
-                    !message.guild)
+                if (message.author.bot || !message.content.startsWith(process.env.PREFIX) || !message.guild)
                     return [2 /*return*/];
                 return [4 /*yield*/, dbObjects_1.Blacklisted.findOne({
                         where: {
@@ -101,18 +99,17 @@ exports.client.on("message", function (message) { return __awaiter(void 0, void 
                 user = _c.sent();
                 _c.label = 6;
             case 6:
-                args = message.content.slice(config_json_1.prefix.length).trim().split(/ +/);
+                args = message.content.slice(process.env.PREFIX.length).trim().split(/ +/);
                 commandName = args.shift().toLowerCase();
                 if (!commandName)
                     return [2 /*return*/];
-                command = exports.client.commands.get(commandName) ||
-                    exports.client.commands.find(function (cmd) { return cmd.aliases.includes(commandName); });
+                command = exports.client.commands.get(commandName) || exports.client.commands.find(function (cmd) { return cmd.aliases.includes(commandName); });
                 if (!command)
                     return [2 /*return*/];
-                if (command.category === Command_1.Category.DEV && !config_json_1.devs.includes(message.author.id))
+                if (command.category === Command_1.Category.DEV && !devs.includes(message.author.id))
                     return [2 /*return*/];
                 if (command.args && !args.length) {
-                    return [2 /*return*/, message.channel.send("The usage of `" + command.name + "` is `" + command.usage + "`. Use `" + config_json_1.prefix + "help " + command.name + "` for more info.")];
+                    return [2 /*return*/, message.channel.send("The usage of `" + command.name + "` is `" + command.usage + "`. Use `" + process.env.PREFIX + "help " + command.name + "` for more info.")];
                 }
                 _i = 0, _a = parseUsers_1.default(args, message);
                 _c.label = 7;
@@ -187,4 +184,4 @@ exports.client.on("message", function (message) { return __awaiter(void 0, void 
         }
     });
 }); });
-exports.client.login(config_json_1.token);
+exports.client.login(process.env.TOKEN);

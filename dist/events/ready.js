@@ -37,7 +37,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var __1 = require("..");
-var config_json_1 = require("../config.json");
 exports.default = {
     event: "ready",
     type: "once",
@@ -46,7 +45,7 @@ exports.default = {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_b) {
                 console.log("Ready!");
-                (_a = __1.client.user) === null || _a === void 0 ? void 0 : _a.setActivity({ type: "WATCHING", name: " for " + config_json_1.prefix + "help" });
+                (_a = __1.client.user) === null || _a === void 0 ? void 0 : _a.setActivity({ type: "WATCHING", name: " for " + process.env.PREFIX + "help" });
                 __1.client.guilds.cache.forEach(function (guild) {
                     guild.members.fetch();
                 });

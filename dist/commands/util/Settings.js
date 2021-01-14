@@ -38,7 +38,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var discord_js_1 = require("discord.js");
 var Command_1 = require("../../Command");
-var config_json_1 = require("../../config.json");
 var dbObjects_1 = require("../../dbObjects");
 exports.default = {
     name: "settings",
@@ -84,7 +83,7 @@ exports.default = {
                         if (!args.length)
                             return [2 /*return*/, message.channel.send(new discord_js_1.MessageEmbed()
                                     .setTitle(message.author.username + "'s settings")
-                                    .setDescription("Change setting values with `" + config_json_1.prefix + "`settings <setting> <value>")
+                                    .setDescription("Change setting values with `" + process.env.PREFIX + "`settings <setting> <value>")
                                     .addField("Passive mode", "Currently set to `" + (user.passive ? "on" : "off") + "`\n*Passive mode disables commands like `rob` but you can't be robbed, either.*"))];
                         return [2 /*return*/];
                 }
