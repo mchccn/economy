@@ -89,6 +89,7 @@ exports.default = {
                                     .join("\n")))];
                         }
                         catch (e) {
+                            console.error(e);
                             return [2 /*return*/, message.channel.send("Could not load the leaderboard at this time!")];
                         }
                         return [2 /*return*/];
