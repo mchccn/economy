@@ -84,7 +84,7 @@ exports.default = {
                                     .setTimestamp(message.createdAt)
                                     .setDescription(top
                                     .map(function (user, position) {
-                                    return ([":first_place:", ":second_place:", ":third_place:"][position] || ":medal:") + " **" + user.dataValues.balance + "** \u2013 " + client.users.cache.get(user.dataValues.user_id).username;
+                                    return ([":first_place:", ":second_place:", ":third_place:"][position] || ":medal:") + " **" + user.dataValues.balance + "** \u2013 " + (client.users.cache.get(user.dataValues.user_id) ? client.users.cache.get(user.dataValues.user_id).username : "Anonymous");
                                 })
                                     .join("\n")))];
                         }
