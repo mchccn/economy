@@ -14,7 +14,7 @@ There are only 4 as of right now:
 
 | Command   | Description                                        |
 | --------- | -------------------------------------------------- |
-| drop      | wips the database clean                            |
+| drop      | wipes the database clean                            |
 | eval      | execute some JavaScript (with some privacy checks) |
 | blacklist | ban a user from using the bot                      |
 | whitelist | revoke user ban from using the bot                 |
