@@ -131,22 +131,25 @@ exports.default = {
                         })];
                     case 8:
                         occupation = _d.sent();
-                        if (user.occupation !== "unemployed") {
-                            message.channel.send("You have to resign first!");
-                            return [2 /*return*/, "invalid"];
-                        }
-                        if (occupation.name === "unemployed") {
-                            message.channel.send("You can't apply to be unemployed, simply resign!");
-                            return [2 /*return*/, "invalid"];
-                        }
-                        if (occupation.name === user.occupation) {
-                            message.channel.send("You're already working there!");
-                            return [2 /*return*/, "invalid"];
-                        }
                         if (!occupation) {
                             message.channel.send("Occupation `" + args[0] + "` not found!");
                         }
                         else {
+                            if (user.occupation !== "unemployed") {
+                                message.channel.send("You have to resign first!");
+                                return [2 /*return*/, "invalid"];
+                            }
+                            if (occupation.name === "unemployed") {
+                                message.channel.send("You can't apply to be unemployed, simply resign!");
+                                return [2 /*return*/, "invalid"];
+                            }
+                            if (occupation.name === user.occupation) {
+                                message.channel.send("You're already working there!");
+                                return [2 /*return*/, "invalid"];
+                            }
+                            if (!occupation) {
+                                message.channel.send("Occupation `" + args[0] + "` not found!");
+                            }
                             if (user.level < occupation.level) {
                                 message.channel.send("Sorry, you need to be level " + occupation.level + " to unlock this job.");
                             }
