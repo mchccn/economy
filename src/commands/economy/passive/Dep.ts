@@ -34,7 +34,7 @@ export default {
       return "invalid";
     }
 
-    const toDep = maxDep >= amount ? amount : amount - maxDep;
+    const toDep = amount >= maxDep ? amount : amount - maxDep;
 
     user.decrement("balance", {
       by: toDep,
