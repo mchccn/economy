@@ -72,7 +72,7 @@ exports.default = {
                             message.channel.send("Please enter a valid amount!");
                             return [2 /*return*/, "invalid"];
                         }
-                        toDep = maxDep >= amount ? amount : amount - maxDep;
+                        toDep = amount >= maxDep ? amount : amount - maxDep;
                         user.decrement("balance", {
                             by: toDep,
                         });
