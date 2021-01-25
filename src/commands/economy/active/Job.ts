@@ -97,26 +97,26 @@ export default {
               name: args[0],
             },
           });
-
-          if (user.occupation !== "unemployed") {
-            message.channel.send("You have to resign first!");
-            return "invalid";
-          }
-
-          if (occupation.name === "unemployed") {
-            message.channel.send(
-              "You can't apply to be unemployed, simply resign!"
-            );
-            return "invalid";
-          }
-
-          if (occupation.name === user.occupation) {
-            message.channel.send(`You're already working there!`);
-            return "invalid";
-          }
-
+      
           if (!occupation) {
             message.channel.send(`Occupation \`${args[0]}\` not found!`);
+
+            if (user.occupation !== "unemployed") {
+              message.channel.send("You have to resign first!");
+              return "invalid";
+            }
+
+            if (occupation.name === "unemployed") {
+              message.channel.send(
+                "You can't apply to be unemployed, simply resign!"
+              );
+              return "invalid";
+            }
+
+            if (occupation.name === user.occupation) {
+              message.channel.send(`You're already working there!`);
+              return "invalid";
+            }
           } else {
             if (user.level < occupation.level) {
               message.channel.send(
